@@ -7,3 +7,5 @@ authors: ["Fragment-Xemu"]
 commands:
   group:
     description: Main Fragment Command
+  grant:
+    description: Grant a group

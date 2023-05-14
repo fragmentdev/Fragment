@@ -5,6 +5,7 @@ import me.xemu.fragment.Message;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +27,8 @@ public class JoinListener implements Listener {
 			user.getGroups().add(group);
 			database.saveUser(user);
 		}
+
+		user.loadPermissions();
 	}
 
 }

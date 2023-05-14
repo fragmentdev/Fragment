@@ -1,12 +1,14 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
+import me.xemu.fragment.commands.GrantCommand;
 import me.xemu.fragment.commands.GroupCommand;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
+import me.xemu.fragment.tabcompleter.GrantTabComplete;
 import me.xemu.fragment.tabcompleter.GroupTabComplete;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -53,9 +55,13 @@ public class FragmentPlugin extends JavaPlugin {
 	}
 
 	private void loadCommands() {
-		PluginCommand pluginCommand = getCommand("group");
-		pluginCommand.setExecutor(new GroupCommand());
-		pluginCommand.setTabCompleter(new GroupTabComplete());
+		PluginCommand groupCommand = getCommand("group");
+		groupCommand.setExecutor(new GroupCommand());
+		groupCommand.setTabCompleter(new GroupTabComplete());
+
+		PluginCommand grantCommand = getCommand("grant");
+		grantCommand.setExecutor(new GrantCommand());
+		grantCommand.setTabCompleter(new GrantTabComplete());
 	}
 
 	private void loadEvents() {

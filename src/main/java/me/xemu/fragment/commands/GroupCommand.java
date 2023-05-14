@@ -10,7 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GroupCommand implements CommandExecutor {
@@ -39,6 +41,11 @@ public class GroupCommand implements CommandExecutor {
 				String groupName = args[1];
 				String weight = args[2];
 
+				if (args.length != 3) {
+					Utils.sendError(player, "Invalid usage.");
+					return true;
+				}
+
 				if (groupName == null || groupName == "") {
 					Utils.sendError(player, "&cInvalid argument 'groupName' as it's blank.");
 					return true;
@@ -51,11 +58,15 @@ public class GroupCommand implements CommandExecutor {
 				}
 
 				Group group = new Group(groupName, Integer.parseInt(weight), null, null, null, null);
-				plugin.getFragmentDatabase().saveGroup(group);
 
 				if (group != null) {
 					Utils.sendError(player, "&cThis group already exists.");
+					return true;
 				}
+
+				plugin.getFragmentDatabase().saveGroup(group);
+
+
 
 				new Message("&8&m--------------------------").colorize().send(player);
 				new Message("&a&l✓ &7You created a group.").colorize().send(player);
@@ -64,6 +75,8 @@ public class GroupCommand implements CommandExecutor {
 				new Message("§7Suffix: §r" + group.getSuffix()).send(player);
 				new Message("§7Format: §r" + group.getFormat()).send(player);
 				new Message("&8&m--------------------------").colorize().send(player);
+
+				return true;
 			} else if (args[0].equalsIgnoreCase("edit")) {
 				if (args.length < 3) {
 					new Message("&cInsufficient arguments for 'edit' command.").colorize().send(player);
@@ -105,13 +118,83 @@ public class GroupCommand implements CommandExecutor {
 				String groupName = args[1];
 				Group group = plugin.getFragmentDatabase().loadGroup(groupName);
 
+				if (group == null) {
+					Utils.sendError(player, "Group doesn't exist.");
+					return true;
+				}
+
 				new Message("&8&m--------------------------").colorize().send(player);
 				new Message("&a&l✓ &7Group Information").colorize().send(player);
 				new Message("&7Name: &f" + group.getName()).colorize().send(player);
 				new Message("§7Prefix: §r" + group.getPrefix()).send(player);
 				new Message("§7Suffix: §r" + group.getSuffix()).send(player);
 				new Message("§7Format: §r" + group.getFormat()).send(player);
+				new Message("§7Weight: §r" + group.getWeight()).send(player);
 				new Message("&8&m--------------------------").colorize().send(player);
+			} else if (args[0].equalsIgnoreCase("delete")) {
+				String groupName = args[1];
+				Group group = plugin.getFragmentDatabase().loadGroup(groupName);
+
+				if (group == null) {
+					Utils.sendError(player, "Group doesn't exist.");
+					return true;
+				}
+
+ 				plugin.getFragmentDatabase().getUsers().forEach(user -> {
+					user.getGroups().remove(groupName);
+				});
+				plugin.getConfigManager().getDatabase().removeAll("groups." + groupName);
+
+				Map<String, String> successMessageData = new HashMap<>();
+				successMessageData.put("Group", group.getName());
+
+				Utils.sendSuccess(player, "You deleted a group.", successMessageData);
+			} else if (args[0].equalsIgnoreCase("addperm")) {
+				String groupName = args[1];
+				Group group = plugin.getFragmentDatabase().loadGroup(groupName);
+
+				if (group == null) {
+					Utils.sendError(player, "Group doesn't exist.");
+					return true;
+				}
+
+				if (group.getPermissions().contains(args[2])) {
+					Utils.sendError(player, "Group already has this permission.");
+					return true;
+				}
+
+				group.getPermissions().add(args[2]);
+				plugin.getFragmentDatabase().saveGroup(group);
+
+				Map<String, String> data = new HashMap<>();
+				data.put("Group", group.getName());
+				data.put("Permission", args[2]);
+
+				Utils.sendSuccess(player, "You granted a permission to a group.", data);
+				return true;
+			} else if (args[0].equalsIgnoreCase("removeperm")) {
+				String groupName = args[1];
+				Group group = plugin.getFragmentDatabase().loadGroup(groupName);
+
+				if (group == null) {
+					Utils.sendError(player, "Group doesn't exist.");
+					return true;
+				}
+
+				if (!group.getPermissions().contains(args[2])) {
+					Utils.sendError(player, "Group doesn't have that permission.");
+					return true;
+				}
+
+				group.getPermissions().remove(args[2]);
+				plugin.getFragmentDatabase().saveGroup(group);
+
+				Map<String, String> data = new HashMap<>();
+				data.put("Group", group.getName());
+				data.put("Permission", args[2]);
+
+				Utils.sendSuccess(player, "You removed a grant from a permission to a group.", data);
+
 			} else {
 				Utils.sendError(player, "Invalid usage: /group");
 			}
