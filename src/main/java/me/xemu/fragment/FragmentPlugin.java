@@ -1,8 +1,15 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
+import me.xemu.fragment.commands.GroupCommand;
 import me.xemu.fragment.database.FragmentDatabase;
+import me.xemu.fragment.database.JsonDatabase;
+import me.xemu.fragment.listener.ChatListener;
+import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
+import me.xemu.fragment.tabcompleter.GroupTabComplete;
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -21,6 +28,13 @@ public class FragmentPlugin extends JavaPlugin {
 		this.configManager = new ConfigManager();
 
 		loadConfigurations();
+		this.fragmentDatabase = new JsonDatabase();
+		fragmentDatabase.load();
+		setConstants();
+
+		loadCommands();
+		loadEvents();
+
 	}
 
 	@Override
@@ -36,5 +50,34 @@ public class FragmentPlugin extends JavaPlugin {
 		configManager.createConfigFile();
 		configManager.createMessagesFile();
 		configManager.createDatabaseFile();
+	}
+
+	private void loadCommands() {
+		PluginCommand pluginCommand = getCommand("group");
+		pluginCommand.setExecutor(new GroupCommand());
+		pluginCommand.setTabCompleter(new GroupTabComplete());
+	}
+
+	private void loadEvents() {
+		Bukkit.getServer().getPluginManager().registerEvents(new ChatListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
+	}
+
+	public static String DEFAULT_FORMAT;
+
+	public static String DEFAULT_GROUP;
+
+	public static boolean FORCE_DEFAULT_GROUP;
+
+	public void setConstants() {
+		DEFAULT_FORMAT = getFragmentPlugin().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("default-format", "{Player} &8» &r{Message}");
+		DEFAULT_GROUP = getFragmentPlugin().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("default-group", "Default");
+		FORCE_DEFAULT_GROUP = getFragmentPlugin().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("force-default-group", Boolean.TRUE);
 	}
 }

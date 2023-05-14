@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Group {
 	private String name;
-	private int priority;
+	private int weight;
 	private String prefix;
 	private String suffix;
 	private String format;
