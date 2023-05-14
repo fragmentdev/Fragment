@@ -1,4 +1,4 @@
-package me.xemu.fragment;
+package me.xemu.fragment.utils;
 
 import me.xemu.fragment.entity.Group;
 import org.bukkit.ChatColor;

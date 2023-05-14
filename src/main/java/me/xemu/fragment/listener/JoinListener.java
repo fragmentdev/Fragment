@@ -1,15 +1,12 @@
 package me.xemu.fragment.listener;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.Message;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinListener implements Listener {

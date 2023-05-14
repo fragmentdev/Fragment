@@ -8,6 +8,7 @@ import me.xemu.fragment.database.JsonDatabase;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
+import me.xemu.fragment.manager.DiscordManager;
 import me.xemu.fragment.tabcompleter.GrantTabComplete;
 import me.xemu.fragment.tabcompleter.GroupTabComplete;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class FragmentPlugin extends JavaPlugin {
 	private static FragmentPlugin fragmentPlugin;
 
 	private ConfigManager configManager;
+	private DiscordManager discordManager;
 
 	private FragmentDatabase fragmentDatabase;
 
@@ -28,6 +30,7 @@ public class FragmentPlugin extends JavaPlugin {
 		FragmentPlugin.fragmentPlugin = this;
 
 		this.configManager = new ConfigManager();
+		this.discordManager = new DiscordManager();
 
 		loadConfigurations();
 		this.fragmentDatabase = new JsonDatabase();
@@ -75,6 +78,9 @@ public class FragmentPlugin extends JavaPlugin {
 
 	public static boolean FORCE_DEFAULT_GROUP;
 
+	public static boolean WEBHOOK_ENABLED;
+	public static String WEBHOOK_URL;
+
 	public void setConstants() {
 		DEFAULT_FORMAT = getFragmentPlugin().getConfigManager()
 				.getConfig()
@@ -85,5 +91,11 @@ public class FragmentPlugin extends JavaPlugin {
 		FORCE_DEFAULT_GROUP = getFragmentPlugin().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("force-default-group", Boolean.TRUE);
+		WEBHOOK_ENABLED = getFragmentPlugin().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("webhook-enabled", false);
+		WEBHOOK_URL = getFragmentPlugin().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("discord-webhook", "PLACE-HERE");
 	}
 }

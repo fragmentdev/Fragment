@@ -1,8 +1,8 @@
 package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.Message;
-import me.xemu.fragment.Utils;
+import me.xemu.fragment.utils.Message;
+import me.xemu.fragment.utils.Utils;
 import me.xemu.fragment.entity.Group;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GroupCommand implements CommandExecutor {
 
@@ -59,7 +58,7 @@ public class GroupCommand implements CommandExecutor {
 
 				Group group = new Group(groupName, Integer.parseInt(weight), null, null, null, null);
 
-				if (group != null) {
+				if (plugin.getFragmentDatabase().loadGroup(groupName) != null) {
 					Utils.sendError(player, "&cThis group already exists.");
 					return true;
 				}
@@ -75,6 +74,8 @@ public class GroupCommand implements CommandExecutor {
 				new Message("§7Suffix: §r" + group.getSuffix()).send(player);
 				new Message("§7Format: §r" + group.getFormat()).send(player);
 				new Message("&8&m--------------------------").colorize().send(player);
+
+				plugin.getDiscordManager().sendCreateGroupLog(player.getName(), group.getName(), String.valueOf(group.getWeight()));
 
 				return true;
 			} else if (args[0].equalsIgnoreCase("edit")) {
@@ -112,6 +113,8 @@ public class GroupCommand implements CommandExecutor {
 				new Message("§7Key: §r" + key).send(player);
 				new Message("§7Value: §r" + value).send(player);
 				new Message("&8&m--------------------------").colorize().send(player);
+
+				plugin.getDiscordManager().editGroupLog(player.getName(), group.getName(), key, value);
 
 				return true;
 			} else if (args[0].equalsIgnoreCase("info")) {
@@ -171,6 +174,9 @@ public class GroupCommand implements CommandExecutor {
 				data.put("Permission", args[2]);
 
 				Utils.sendSuccess(player, "You granted a permission to a group.", data);
+
+				plugin.getDiscordManager().editGroupLog(player.getName(), group.getName(), "add-permission", args[2]);
+
 				return true;
 			} else if (args[0].equalsIgnoreCase("removeperm")) {
 				String groupName = args[1];
@@ -194,6 +200,8 @@ public class GroupCommand implements CommandExecutor {
 				data.put("Permission", args[2]);
 
 				Utils.sendSuccess(player, "You removed a grant from a permission to a group.", data);
+
+				plugin.getDiscordManager().editGroupLog(player.getName(), group.getName(), "remove-permission", args[2]);
 
 			} else {
 				Utils.sendError(player, "Invalid usage: /group");

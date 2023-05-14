@@ -1,8 +1,8 @@
 package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.Message;
-import me.xemu.fragment.Utils;
+import me.xemu.fragment.utils.Message;
+import me.xemu.fragment.utils.Utils;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import org.bukkit.Bukkit;
@@ -11,9 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GrantCommand implements CommandExecutor {
@@ -65,6 +63,7 @@ public class GrantCommand implements CommandExecutor {
 		successMessageData.put("Group", group.getName());
 
 		Utils.sendSuccess(player, "You granted a group.", successMessageData);
+		plugin.getDiscordManager().sendGrantLog(player.getName(), target.getName(), group.getName());
 
 		return true;
 	}
