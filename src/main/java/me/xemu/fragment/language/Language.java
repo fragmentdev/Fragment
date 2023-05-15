@@ -74,6 +74,14 @@ public class Language {
 			messages.getOrSetDefault("GROUP_REMOVE_PERMISSION", "&aYou removed the permission <permission> from the group <group>")
 	);
 
+	public static String PLAYER_ADD_PERMISSION = ChatColor.translateAlternateColorCodes('&',
+			messages.getOrSetDefault("PLAYER_ADD_PERMISSION", "&aYou added the permission <permission> to the player <player>")
+	);
+
+	public static String PLAYER_REMOVE_PERMISSION = ChatColor.translateAlternateColorCodes('&',
+			messages.getOrSetDefault("PLAYER_REMOVE_PERMISSION", "&aYou removed the permission <permission> from the player <player>")
+	);
+
 	public static String AN_ERROR_OCCURRED = ChatColor.translateAlternateColorCodes('&',
 			messages.getOrSetDefault("AN_ERROR_OCCURRED", "&cAn error occurred while executing the command.")
 	);

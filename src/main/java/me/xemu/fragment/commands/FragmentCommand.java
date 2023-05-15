@@ -1,6 +1,7 @@
 package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.discord.DiscordWebhook;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
@@ -9,6 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class FragmentCommand implements CommandExecutor {
 	@Override
@@ -60,6 +63,15 @@ public class FragmentCommand implements CommandExecutor {
 
 				return true;
 			}
+		} else if (args.length == 1 && args[0].equalsIgnoreCase("webhooktest")) {
+			DiscordWebhook webhook = new DiscordWebhook(FragmentPlugin.WEBHOOK_URL);
+			webhook.setContent("Webhook is stable!");
+			try {
+				webhook.execute();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			Utils.sendSuccess(player, "Dispatched webhook test to the Discord Channel.");
 		}
 
 		return true;

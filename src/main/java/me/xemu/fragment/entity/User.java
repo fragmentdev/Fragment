@@ -19,9 +19,11 @@ import java.util.stream.Collectors;
 public class User {
 	private UUID uuid;
 	private List<Group> groups;
+	private List<String> playerPermissions;
 
 	public void loadPermissions() {
 		List<String> permissions = getGroups().stream().flatMap(group -> group.getPermissions().stream()).toList();
+		permissions.addAll(playerPermissions); // Add all players permission
 		permissions.forEach(permission -> {
 			Bukkit.getPlayer(uuid).addAttachment(FragmentPlugin.getFragmentPlugin(), permission, true);
 			Bukkit.getLogger().info(permission);

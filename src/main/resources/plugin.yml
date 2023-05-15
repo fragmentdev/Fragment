@@ -13,3 +13,5 @@ commands:
     description: Remove grant a group
   fragment:
     description: Main Fragment Command
+  user:
+    description: Handle user

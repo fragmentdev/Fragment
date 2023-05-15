@@ -1,10 +1,7 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
-import me.xemu.fragment.commands.FragmentCommand;
-import me.xemu.fragment.commands.GrantCommand;
-import me.xemu.fragment.commands.GroupCommand;
-import me.xemu.fragment.commands.RemoveGrantCommand;
+import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
 import me.xemu.fragment.listener.ChatListener;
@@ -13,12 +10,14 @@ import me.xemu.fragment.manager.ConfigManager;
 import me.xemu.fragment.manager.DiscordManager;
 import me.xemu.fragment.tabcompleter.GrantTabComplete;
 import me.xemu.fragment.tabcompleter.GroupTabComplete;
+import me.xemu.fragment.tabcompleter.UserTabComplete;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public class 	FragmentPlugin extends JavaPlugin {
+public class FragmentPlugin extends JavaPlugin {
 
 	private static FragmentPlugin fragmentPlugin;
 
@@ -27,21 +26,26 @@ public class 	FragmentPlugin extends JavaPlugin {
 
 	private FragmentDatabase fragmentDatabase;
 
+	final int pluginId = 18489;
+
 	@Override
 	public void onEnable() {
 		FragmentPlugin.fragmentPlugin = this;
 
 		this.configManager = new ConfigManager();
-		this.discordManager = new DiscordManager();
 
 		loadConfigurations();
+		setConstants();
 		this.fragmentDatabase = new JsonDatabase();
 		fragmentDatabase.load();
-		setConstants();
+
+		this.discordManager = new DiscordManager();
+		discordManager.init();
 
 		loadCommands();
 		loadEvents();
 
+		Metrics metrics = new Metrics(this, pluginId);
 	}
 
 	@Override
@@ -70,6 +74,10 @@ public class 	FragmentPlugin extends JavaPlugin {
 
 		PluginCommand removeCommand = getCommand("removegrant");
 		removeCommand.setExecutor(new RemoveGrantCommand());
+
+		PluginCommand userCommand = getCommand("user");
+		userCommand.setExecutor(new UserCommand());
+		userCommand.setTabCompleter(new UserTabComplete());
 
 		getCommand("fragment").setExecutor(new FragmentCommand());
 	}

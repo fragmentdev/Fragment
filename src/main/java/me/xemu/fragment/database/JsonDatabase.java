@@ -37,7 +37,7 @@ public class JsonDatabase implements FragmentDatabase {
 				.filter(group -> group != null)
 				.collect(Collectors.toList());
 
-		return new User(uuid, groups);
+		return new User(uuid, groups, db.getStringList("users." + uuid + ".permissions"));
 	}
 
 	@Override
@@ -51,6 +51,7 @@ public class JsonDatabase implements FragmentDatabase {
 				.map(Group::getName)
 				.collect(Collectors.toList());
 		db.set("users." + user.getUuid() + ".groups", groups);
+		db.set("users." + user.getUuid() + ".permissions", user.getPlayerPermissions());
 		db.write();
 	}
 
