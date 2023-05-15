@@ -11,3 +11,5 @@ commands:
     description: Grant a group
   removegrant:
     description: Remove grant a group
+  fragment:
+    description: Main Fragment Command

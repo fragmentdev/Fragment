@@ -5,10 +5,8 @@ import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
 
 // group permission <type> <permission>
 public class GroupPermissionCommand {

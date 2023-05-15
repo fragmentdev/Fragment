@@ -18,7 +18,7 @@ public class RemoveGrantCommand implements CommandExecutor {
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player)) return true;
 
 		Player player = (Player) sender;

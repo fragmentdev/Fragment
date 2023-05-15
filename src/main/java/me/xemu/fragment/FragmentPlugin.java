@@ -1,6 +1,7 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
+import me.xemu.fragment.commands.FragmentCommand;
 import me.xemu.fragment.commands.GrantCommand;
 import me.xemu.fragment.commands.GroupCommand;
 import me.xemu.fragment.commands.RemoveGrantCommand;
@@ -69,6 +70,8 @@ public class 	FragmentPlugin extends JavaPlugin {
 
 		PluginCommand removeCommand = getCommand("removegrant");
 		removeCommand.setExecutor(new RemoveGrantCommand());
+
+		getCommand("fragment").setExecutor(new FragmentCommand());
 	}
 
 	private void loadEvents() {

@@ -7,8 +7,6 @@ import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-
 public class GroupEditCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();

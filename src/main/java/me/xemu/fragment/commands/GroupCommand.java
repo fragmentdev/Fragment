@@ -50,12 +50,14 @@ public class GroupCommand implements CommandExecutor {
 						sendInvalidUsage(player);
 					}
 					break;
-				case "permission":
+				case "permission": // group permission add Moderator litebans.ban
 					if (args.length == 4) {
-						if (args[2].equals("add")) {
-							new GroupPermissionCommand().execute(player, args[1], args[2], args[3]);
-						} else if (args[2].equals("remove")) {
-							new GroupPermissionCommand().execute(player, args[1], args[2], args[3]);
+						if (args[1].equals("add")) {
+							new GroupPermissionCommand().execute(player, args[2], args[1], args[3]);
+						} else if (args[1].equals("remove")) {
+							new GroupPermissionCommand().execute(player, args[2], args[1], args[3]);
+						} else {
+							sendInvalidUsage(player);
 						}
 					}
 					break;
