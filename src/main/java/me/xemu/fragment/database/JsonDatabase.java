@@ -14,8 +14,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class JsonDatabase implements FragmentDatabase {
-	private Json db;
 	private FragmentPlugin plugin;
+	private Json db;
 
 	@Override
 	public String getIdentifier() {
@@ -26,16 +26,16 @@ public class JsonDatabase implements FragmentDatabase {
 	public void load() {
 		this.plugin = FragmentPlugin.getFragmentPlugin();
 		this.db = plugin.getConfigManager().getDatabase();
+
 	}
 
 	@Override
 	public User loadUser(UUID uuid) {
 		List<String> groupStrings = db.getStringList("users." + uuid + ".groups");
-		ArrayList<Group> groups = new ArrayList<>();
-
-		groupStrings.forEach(groupName -> {
-			groups.add(loadGroup(groupName));
-		});
+		List<Group> groups = groupStrings.stream()
+				.map(this::loadGroup)
+				.filter(group -> group != null)
+				.collect(Collectors.toList());
 
 		return new User(uuid, groups);
 	}
@@ -47,35 +47,38 @@ public class JsonDatabase implements FragmentDatabase {
 
 	@Override
 	public void saveUser(User user) {
-		List<String> groups = user.getGroups().stream().map(Group::getName).toList();
+		List<String> groups = user.getGroups().stream()
+				.map(Group::getName)
+				.collect(Collectors.toList());
 		db.set("users." + user.getUuid() + ".groups", groups);
 		db.write();
 	}
 
 	@Override
 	public List<User> getUsers() {
-		List<UUID> players = FragmentPlugin.getFragmentPlugin().getServer().getOnlinePlayers().stream()
+		List<UUID> playerUUIDs = plugin.getServer().getOnlinePlayers().stream()
 				.map(Entity::getUniqueId)
-				.toList();
+				.collect(Collectors.toList());
 
 		List<User> users = new ArrayList<>();
-		players.forEach(player -> {
-			users.add(loadUser(player));
-		});
+		playerUUIDs.forEach(uuid -> users.add(loadUser(uuid)));
 
 		return users;
 	}
 
 	@Override
 	public Group loadGroup(String name) {
-		return new Group(
-				name,
-				db.getInt("groups." + name + ".weight"),
-				db.getString("groups." + name + ".prefix"),
-				db.getString("groups." + name + ".suffix"),
-				db.getString("groups." + name + ".format"),
-				db.getStringList("groups." + name + ".permissions")
-		);
+		if (!db.contains("groups." + name)) {
+			return null;
+		}
+
+		int weight = db.getInt("groups." + name + ".weight");
+		String prefix = db.getString("groups." + name + ".prefix");
+		String suffix = db.getString("groups." + name + ".suffix");
+		String format = db.getString("groups." + name + ".format");
+		List<String> permissions = db.getStringList("groups." + name + ".permissions");
+
+		return new Group(name, weight, prefix, suffix, format, permissions);
 	}
 
 	@Override
@@ -94,12 +97,25 @@ public class JsonDatabase implements FragmentDatabase {
 
 	@Override
 	public List<Group> getGroups() {
+		Set<String> groupNames = db.getSection("groups").singleLayerKeySet();
 		List<Group> groups = new ArrayList<>();
-		Set<String> groupNames = db.singleLayerKeySet("groups");
-		groupNames.forEach(group -> {
-			groups.add(loadGroup(group));
+		groupNames.forEach(groupName -> {
+			Group group = loadGroup(groupName);
+			if (group != null) {
+				groups.add(group);
+			}
 		});
 
 		return groups;
+	}
+
+	@Override
+	public boolean exists(User user) {
+		return db.contains("users." + user.getUuid());
+	}
+
+	@Override
+	public boolean exists(Group group) {
+		return db.contains("groups." + group.getName());
 	}
 }

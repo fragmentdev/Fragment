@@ -62,6 +62,17 @@ public class Utils {
 		});
 	}
 
+	public static void sendSuccess(Player player, String string) {
+		List<Message> toSend = new ArrayList<>();
+
+		toSend.add(new Message("&8&m-----------------------------").colorize());
+		toSend.add(new Message("&a&l✓ &r" + string).colorize());
+		toSend.add(new Message("&8&m-----------------------------").colorize());
+		toSend.forEach(send -> {
+			send.colorize().send(player);
+		});
+	}
+
 	public static Group getHeaviestGroup(List<Group> groups) {
 		if (groups.isEmpty()) {
 			return null;

@@ -3,6 +3,7 @@ package me.xemu.fragment;
 import lombok.Getter;
 import me.xemu.fragment.commands.GrantCommand;
 import me.xemu.fragment.commands.GroupCommand;
+import me.xemu.fragment.commands.RemoveGrantCommand;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
 import me.xemu.fragment.listener.ChatListener;
@@ -16,7 +17,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
-public class FragmentPlugin extends JavaPlugin {
+public class 	FragmentPlugin extends JavaPlugin {
 
 	private static FragmentPlugin fragmentPlugin;
 
@@ -65,6 +66,9 @@ public class FragmentPlugin extends JavaPlugin {
 		PluginCommand grantCommand = getCommand("grant");
 		grantCommand.setExecutor(new GrantCommand());
 		grantCommand.setTabCompleter(new GrantTabComplete());
+
+		PluginCommand removeCommand = getCommand("removegrant");
+		removeCommand.setExecutor(new RemoveGrantCommand());
 	}
 
 	private void loadEvents() {

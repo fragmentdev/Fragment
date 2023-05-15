@@ -2,7 +2,6 @@ package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
-import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
@@ -13,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class GrantCommand implements CommandExecutor {
+public class RemoveGrantCommand implements CommandExecutor {
 
 	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
@@ -46,15 +45,15 @@ public class GrantCommand implements CommandExecutor {
 
 		User user = database.loadUser(target);
 
-		if (user.getGroups().contains(database.loadGroup(groupName))) {
-			Utils.sendError(player, Language.GROUP_ALREADY_GRANTED);
+		if (!user.getGroups().contains(database.loadGroup(groupName))) {
+			Utils.sendError(player, Language.GROUP_NOT_GRANTED);
 			return true;
 		}
 
-		user.getGroups().add(database.loadGroup(groupName));
+		user.getGroups().remove(database.loadGroup(groupName));
 		database.saveUser(user);
 
-		Utils.sendSuccess(player, Language.GROUP_GRANT_TO_PLAYER.replaceAll("<group>", groupName).replaceAll("<player>", target.getName()));
+		Utils.sendSuccess(player, Language.GROUP_GRANT_REMOVED_FROM_PLAYER.replaceAll("<group>", groupName).replaceAll("<player>", target.getName()));
 
 		return true;
 	}

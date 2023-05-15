@@ -19,4 +19,7 @@ public interface FragmentDatabase {
 	Group loadGroup(String name);
 	void saveGroup(Group group);
 	List<Group> getGroups();
+
+	boolean exists(User user);
+	boolean exists(Group group);
 }

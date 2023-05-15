@@ -20,18 +20,16 @@ public class GroupTabComplete implements TabCompleter {
 		if (args.length == 1) {
 			completions.add("create");
 			completions.add("edit");
-			completions.add("info");
-			completions.add("self");
 			completions.add("delete");
-			completions.add("addperm");
-			completions.add("removeperm");
+			completions.add("permission");
 			// Add other subcommands here
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
 			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("info")) {
 			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
-		} else if (args.length == 2 && args[0].equalsIgnoreCase("addperm")) {
-			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+		} else if (args.length == 2 && args[0].equalsIgnoreCase("permission")) {
+			completions.add("add");
+			completions.add("remove");
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("removeperm")) {
 			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("edit")) {
