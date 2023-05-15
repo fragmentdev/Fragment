@@ -2,12 +2,15 @@ package me.xemu.fragment.tabcompleter;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
+import org.bukkit.Bukkit;
 import org.bukkit.command.TabCompleter;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,7 @@ public class GroupTabComplete implements TabCompleter {
 			completions.add("edit");
 			completions.add("delete");
 			completions.add("permission");
+			completions.add("self");
 			// Add other subcommands here
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
 			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
@@ -30,7 +34,11 @@ public class GroupTabComplete implements TabCompleter {
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("permission")) {
 			completions.add("add");
 			completions.add("remove");
-		} else if (args.length == 2 && args[0].equalsIgnoreCase("removeperm")) {
+		} else if (args.length == 3 && args[0].equalsIgnoreCase("permission")) {
+			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+		 } else if (args.length == 4 && args[0].equalsIgnoreCase("permission")) {
+			completions.addAll(getAllPermissions());
+		}	else if (args.length == 2 && args[0].equalsIgnoreCase("removeperm")) {
 			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("edit")) {
 			completions.add("prefix");
@@ -59,4 +67,23 @@ public class GroupTabComplete implements TabCompleter {
 
 		return completions;
 	}
+
+	public static List<String> getAllPermissions() {
+		List<String> permissions = new ArrayList<>();
+
+		for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			for (Permission permission : plugin.getDescription().getPermissions()) {
+				if (permission.getChildren().isEmpty()) {
+					permissions.add(permission.getName());
+				} else {
+					for (String childPermission : permission.getChildren().keySet()) {
+						permissions.add(childPermission);
+					}
+				}
+			}
+		}
+
+		return permissions;
+	}
+
 }

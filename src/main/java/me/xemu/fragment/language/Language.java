@@ -20,6 +20,10 @@ public class Language {
 			messages.getOrSetDefault("INVALID_TARGET", "&cInvalid target.")
 	);
 
+	public static String NO_GROUPS = ChatColor.translateAlternateColorCodes('&',
+			messages.getOrSetDefault("NO_GROUPS", "&cYou do not have any groups..")
+	);
+
 	public static String GROUP_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&',
 			messages.getOrSetDefault("GROUP_ALREADY_EXISTS", "&cThis group already exists.")
 	);

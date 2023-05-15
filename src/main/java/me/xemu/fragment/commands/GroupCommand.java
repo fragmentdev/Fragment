@@ -1,9 +1,6 @@
 package me.xemu.fragment.commands;
 
-import me.xemu.fragment.commands.subcommands.GroupCreateCommand;
-import me.xemu.fragment.commands.subcommands.GroupDeleteCommand;
-import me.xemu.fragment.commands.subcommands.GroupEditCommand;
-import me.xemu.fragment.commands.subcommands.GroupPermissionCommand;
+import me.xemu.fragment.commands.subcommands.*;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.command.Command;
@@ -60,6 +57,9 @@ public class GroupCommand implements CommandExecutor {
 							sendInvalidUsage(player);
 						}
 					}
+					break;
+				case "self":
+					new GroupSelf().execute(player);
 					break;
 				default:
 					sendInvalidUsage(player);
