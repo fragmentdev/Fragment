@@ -8,13 +8,18 @@ import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
 import me.xemu.fragment.manager.DiscordManager;
+import me.xemu.fragment.menu.MenuListener;
+import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.tabcompleter.GrantTabComplete;
 import me.xemu.fragment.tabcompleter.GroupTabComplete;
 import me.xemu.fragment.tabcompleter.UserTabComplete;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
 
 @Getter
 public class FragmentPlugin extends JavaPlugin {
@@ -25,6 +30,8 @@ public class FragmentPlugin extends JavaPlugin {
 	private DiscordManager discordManager;
 
 	private FragmentDatabase fragmentDatabase;
+
+	private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
 
 	final int pluginId = 18489;
 
@@ -85,6 +92,7 @@ public class FragmentPlugin extends JavaPlugin {
 	private void loadEvents() {
 		Bukkit.getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
+		getServer().getPluginManager().registerEvents(new MenuListener(), this);
 	}
 
 	public static String DEFAULT_FORMAT;
@@ -112,5 +120,22 @@ public class FragmentPlugin extends JavaPlugin {
 		WEBHOOK_URL = getFragmentPlugin().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("discord-webhook", "PLACE-HERE");
+	}
+
+	public HashMap<Player, MenuUtil> getMenuUtil() {
+		return menuUtilMap;
+	}
+
+	public static MenuUtil getMenuUtil(Player player) {
+		MenuUtil menuUtil;
+
+		if (menuUtilMap.containsKey(player)) {
+			return menuUtilMap.get(player);
+		} else {
+			menuUtil = new MenuUtil(player);
+			menuUtilMap.put(player, menuUtil);
+		}
+
+		return menuUtil;
 	}
 }

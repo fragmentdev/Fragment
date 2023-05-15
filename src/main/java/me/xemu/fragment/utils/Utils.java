@@ -1,18 +1,40 @@
 package me.xemu.fragment.utils;
 
 import me.xemu.fragment.entity.Group;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Utils {
 
-	public static String translate(String str) {
-		return ChatColor.translateAlternateColorCodes('&', str);
+	private static Pattern p2 = Pattern.compile("&#([A-Fa-f0-9]){6}");
+
+	public static String translate(String message) {
+		message = message.replace(">>", "").replace("<<", "");
+		Matcher matcher = p2.matcher(message);
+		while (matcher.find()) {
+			ChatColor hexColor = ChatColor.of(matcher.group().substring(1));
+			String before = message.substring(0, matcher.start());
+			String after = message.substring(matcher.end());
+			message = before + hexColor + after;
+			matcher = p2.matcher(message);
+		}
+		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+
+	public static String deformat(String str) {
+		return ChatColor.stripColor(translate(str));
+	}
+
+	public static List<String> color(List<String> lore){
+		return lore.stream().map(Utils::translate).collect(Collectors.toList());
 	}
 
 	public static boolean isNumber(String str) {
@@ -81,6 +103,4 @@ public class Utils {
 		groups.sort(Comparator.comparingInt(Group::getWeight).reversed());
 		return groups.get(0);
 	}
-
-
 }
