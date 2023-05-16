@@ -3,6 +3,7 @@ package me.xemu.fragment.commands;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.discord.DiscordWebhook;
 import me.xemu.fragment.language.Language;
+import me.xemu.fragment.menu.guis.MainMenu;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -31,12 +32,13 @@ public class FragmentCommand implements CommandExecutor {
 		}
 
 		if (args.length == 0) {
-			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
-			player.sendMessage(Utils.translate("&aFragment v" + version + "&7 by &bXemu&7."));
-			player.sendMessage(Utils.translate("&7Advanced Permission Framework"));
-			player.sendMessage(Utils.translate("&7> &b/fragment reload - Reload the plugin.."));
-			player.sendMessage(Utils.translate("&7> &b/fragment help - View all help."));
-			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
+			new MainMenu(FragmentPlugin.getMenuUtil(player)).open();
+			//player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
+			//player.sendMessage(Utils.translate("&aFragment v" + version + "&7 by &bXemu&7."));
+			//player.sendMessage(Utils.translate("&7Advanced Permission Framework"));
+			//player.sendMessage(Utils.translate("&7> &b/fragment reload - Reload the plugin.."));
+			//player.sendMessage(Utils.translate("&7> &b/fragment help - View all help."));
+			//player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
 			return true;
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
 			if (player.hasPermission("fragment.admin")) {

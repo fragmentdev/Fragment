@@ -20,8 +20,6 @@ public class JoinListener implements Listener {
 		User user = database.loadUser(player.getUniqueId());
 		Group group = database.loadGroup(FragmentPlugin.DEFAULT_GROUP);
 
-		if (group == null) return;
-
 		if (user.getGroups().isEmpty() && FragmentPlugin.FORCE_DEFAULT_GROUP) {
 			user.getGroups().add(group);
 			database.saveUser(user);

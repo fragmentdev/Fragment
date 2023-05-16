@@ -2,7 +2,8 @@ name: Fragment
 description: Fragment is a advanced permission system for SpigotMC & PaperMC
 main: me.xemu.fragment.FragmentPlugin
 version: 1.0.0
-authors: ["Fragment-Xemu"]
+api-version: 1.13
+authors: ["Xemu", "DevScape"]
 
 commands:
   group:
@@ -15,5 +16,3 @@ commands:
     description: Main Fragment Command
   user:
     description: Handle user
-  test:
-    description: Test command

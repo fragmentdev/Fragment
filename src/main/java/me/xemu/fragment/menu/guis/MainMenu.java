@@ -1,35 +1,41 @@
 package me.xemu.fragment.menu.guis;
 
-import me.xemu.fragment.menu.Menu;
+import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.menu.MenuUtil;
-import org.bukkit.Material;
+import me.xemu.fragment.menu.Paged;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class MainMenu extends Menu {
-	public MainMenu(MenuUtil menuUtil) {
-		super(menuUtil);
-	}
+import static me.xemu.fragment.utils.Utils.deformat;
 
-	@Override
-	public String getMenuName() {
-		return "Main Menu";
-	}
+public class MainMenu extends Paged {
 
-	@Override
-	public int getSlots() {
-		return 54;
-	}
+    public MainMenu(MenuUtil menuUtil) {
+        super(menuUtil);
+    }
 
-	@Override
-	public void handleMenu(InventoryClickEvent e) {
-		if (e.getCurrentItem().getType().equals(Material.PAPER)) {
+    @Override
+    public String getMenuName() {
+        return "Fragment > Main Menu:";
+    }
 
-		}
- 	}
+    @Override
+    public int getSlots() {
+        return 54;
+    }
 
-	@Override
-	public void setMenuItems() {
-		getInventory().addItem(makeItem(Material.PAPER, "&aGroups"));
-		getInventory().addItem(makeItem(Material.PAPER, "&aUsers"));
-	}
+    @Override
+    public void handleMenu(InventoryClickEvent e) {
+        Player player = (Player) e.getWhoClicked();
+        String displayname = deformat(e.getCurrentItem().getItemMeta().getDisplayName());
+
+        if (displayname.equalsIgnoreCase("Users")) {
+            new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
+        }
+    }
+
+    @Override
+    public void setMenuItems() {
+        applyLayout(false);
+    }
 }

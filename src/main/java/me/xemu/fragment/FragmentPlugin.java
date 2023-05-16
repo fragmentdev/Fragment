@@ -86,8 +86,6 @@ public class FragmentPlugin extends JavaPlugin {
 		userCommand.setExecutor(new UserCommand());
 		userCommand.setTabCompleter(new UserTabComplete());
 
-		getCommand("test").setExecutor(new TestCommand());
-
 		getCommand("fragment").setExecutor(new FragmentCommand());
 	}
 
