@@ -25,7 +25,7 @@ public class InfoMenu extends Paged {
 
     @Override
     public String getMenuName() {
-        return "Fragment > Users:";
+        return "Fragment > Info:";
     }
 
     @Override
@@ -64,9 +64,9 @@ public class InfoMenu extends Paged {
         getInventory().setItem(21, makeItem(Material.PAPER, "&aPlugin Version", "§7Version: §a" + plugin.getDescription().getVersion()));
         getInventory().setItem(22, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
         getInventory().setItem(23, makeItem(Material.PAPER, "&aAuthors", "§a" + plugin.getDescription().getAuthors()));
-        getInventory().setItem(23, makeItem(Material.PAPER, "&aWebhook Enabled", "§a" + plugin.WEBHOOK_ENABLED));
+        getInventory().setItem(24, makeItem(Material.PAPER, "&aWebhook Enabled", "§a" + plugin.WEBHOOK_ENABLED));
         getInventory().setItem(30, makeItem(Material.PAPER, "&aLanguage", "§a" + "English / Custom"));
-        getInventory().setItem(30, makeItem(Material.PAPER, "&aConfigs", "§a" + "Created"));
+        getInventory().setItem(31, makeItem(Material.PAPER, "&aConfigs", "§a" + "Created"));
 
     }
 }
