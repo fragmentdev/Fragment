@@ -65,11 +65,11 @@ public class SettingsMenu extends Paged {
 				if (received.equalsIgnoreCase("JSON")) {
 					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
 					plugin.getConfigManager().getConfig().write();
-					open();
+					super.open();
 				} else if (received.equalsIgnoreCase("MySQL")) {
 					plugin.getConfigManager().getConfig().set("database.integration", "MySQL");
 					plugin.getConfigManager().getConfig().write();
-					open();
+					super.open();
 
 					if (plugin.getFragmentDatabase() instanceof MySqlDatabase) {
 						player.sendMessage(ChatColor.GOLD + "Fragment Warning: You just updated your integration to MySQL. Remember to edit your login settings to MySQL in config, or the plugin will crash.");
