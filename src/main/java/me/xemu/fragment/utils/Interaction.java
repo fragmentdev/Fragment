@@ -14,17 +14,17 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class Receiver implements Listener {
+public class Interaction implements Listener {
 	private Plugin plugin;
 	private Map<UUID, CompletableFuture<String>> awaitingAnswers;
 
-	public Receiver(Plugin plugin) {
+	public Interaction(Plugin plugin) {
 		this.plugin = plugin;
 		this.awaitingAnswers = new HashMap<>();
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	public CompletableFuture<String> startReceiver(Player player, String question) {
+	public CompletableFuture<String> startInteraction(Player player, String question) {
 		CompletableFuture<String> future = new CompletableFuture<>();
 
 		player.sendTitle(ChatColor.GREEN + "§l" + question, "Write your answer in the chat.");

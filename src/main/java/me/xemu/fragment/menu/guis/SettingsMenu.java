@@ -2,20 +2,14 @@ package me.xemu.fragment.menu.guis;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.MySqlDatabase;
-import me.xemu.fragment.entity.Group;
-import me.xemu.fragment.entity.User;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
-import me.xemu.fragment.utils.Receiver;
+import me.xemu.fragment.utils.Interaction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
@@ -60,8 +54,8 @@ public class SettingsMenu extends Paged {
 			}
 		} else if (displayname.equalsIgnoreCase("Database Integration")) {
 			player.closeInventory();
-			Receiver receiver = new Receiver(plugin);
-			receiver.startReceiver(player, "Database System - JSON or MySQL?").thenAccept(received -> {
+			Interaction interaction = new Interaction(plugin);
+			interaction.startReceiver(player, "Database System - JSON or MySQL?").thenAccept(received -> {
 				if (received.equalsIgnoreCase("JSON")) {
 					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
 					plugin.getConfigManager().getConfig().write();
