@@ -4,10 +4,12 @@ import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.MySqlDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import me.xemu.fragment.language.Language;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.utils.Interaction;
 import me.xemu.fragment.utils.Receiver;
+import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -66,6 +68,17 @@ public class GrantMenu extends Paged {
 			}
 		}
 
+		groups.forEach(g -> {
+			if (displayname.equalsIgnoreCase(g.getName())) {
+				User t = plugin.getFragmentDatabase().loadUser(target);
+				t.getGroups().add(g);
+				plugin.getFragmentDatabase().saveUser(t);
+
+				player.closeInventory();
+				player.sendMessage(Language.GROUP_GRANT_TO_PLAYER.replaceAll("<group>", g.getName().replaceAll("<player>", target.getName())));
+			}
+		});
+
 			//plugin.loadDatabase();
 	}
 
@@ -80,15 +93,16 @@ public class GrantMenu extends Paged {
 
 			for (int i = startIndex; i < endIndex; i++) {
 				Group g = groups.get(i);
-				if (group == null) continue;
-				Group group = plugin.getFragmentDatabase().loadGroup(g.getName());
+				if (g == null) continue;
 
 				List<String> lore = new ArrayList<>();
-				lore.add("&7Groups: (name, weight)");
-				for (Group group : user.getGroups()) {
-					lore.add(" &8&l> &f&l" + group.getName() + " &7- &e" + group.getWeight());
-				}
-				getInventory().addItem(makeItem(Material.PLAYER_HEAD, "&e&n" + player.getName(), lore));
+				lore.add(Utils.translate("&7Weight: &f" + g.getWeight()));
+				lore.add(Utils.translate("&7Permissions: &f" + g.getPermissions().size()));
+				lore.add(Utils.translate("&7Prefix: &f" + g.getPrefix()));
+				lore.add(Utils.translate("&7Suffix: &f" + g.getSuffix()));
+				lore.add(Utils.translate("&7Format: &f" + g.getFormat()));
+				lore.add(Utils.translate("&aClick to grant to " + target.getName()));
+				getInventory().addItem(makeItem(Material.CHEST, "&e&n" + g.getName(), lore));
 			}
 		}
 	}
