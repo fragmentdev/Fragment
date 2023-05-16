@@ -22,6 +22,10 @@ public class GroupPermissionCommand {
 		Group group = database.loadGroup(groupName);
 
 		if (type.equalsIgnoreCase("add")) {
+			if (group.getPermissions().contains(permission)) {
+				Utils.sendError(player, Language.PERMISSION_ALREADY_GRANTED);
+				return;
+			}
 			group.getPermissions().add(permission);
 			database.saveGroup(group);
 			String message = Language.GROUP_ADD_PERMISSION
@@ -31,6 +35,10 @@ public class GroupPermissionCommand {
 			plugin.getDiscordManager().editGroupLog(player.getName(), group.getName(), "group-permission-"+type, permission);
 			return;
 		} else if (type.equalsIgnoreCase("remove")) {
+			if (!group.getPermissions().contains(permission)) {
+				Utils.sendError(player, Language.PERMISSION_NOT_GRANTED);
+				return;
+			}
 			group.getPermissions().remove(permission);
 			database.saveGroup(group);
 			String message = Language.GROUP_ADD_PERMISSION

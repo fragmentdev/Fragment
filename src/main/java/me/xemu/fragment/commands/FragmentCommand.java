@@ -63,6 +63,10 @@ public class FragmentCommand implements CommandExecutor {
 				return true;
 			}
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("webhooktest")) {
+			if (FragmentPlugin.WEBHOOK_URL.isEmpty() || FragmentPlugin.WEBHOOK_URL.contains("PLACE-HERE")) {
+				Utils.sendError(player, "Could not test webhook. Webhook URL is not set.");
+				return true;
+			}
 			DiscordWebhook webhook = new DiscordWebhook(FragmentPlugin.WEBHOOK_URL);
 			webhook.setContent("Webhook is stable!");
 			try {

@@ -8,6 +8,7 @@ import me.xemu.fragment.utils.Utils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GroupCreateCommand {
@@ -22,6 +23,18 @@ public class GroupCreateCommand {
 		}
 
 		Group group = new Group(groupName, weight, null, null, null, null);
+
+		try {
+			List<Group> groupsWithSameWeight = database.getGroups().stream().filter(g -> g.getWeight() == weight).toList();
+			if (!groupsWithSameWeight.isEmpty()) {
+				Utils.sendError(player, "You cannot have two groups with the same weight.");
+				return;
+			}
+		}  catch (NullPointerException nullPointerException) {
+			Utils.sendError(player, Language.AN_ERROR_OCCURRED);
+			return;
+		}
+
 		database.saveGroup(group);
 
 		Map<String, String> strings = new HashMap<>();

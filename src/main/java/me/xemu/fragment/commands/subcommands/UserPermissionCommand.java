@@ -29,10 +29,18 @@ public class UserPermissionCommand {
 		}
 
 		if (type.equals("add")) {
+			if (targetUser.getPlayerPermissions().contains(permission)) {
+				Utils.sendError(player, Language.PERMISSION_ALREADY_GRANTED);
+				return;
+			}
 			targetUser.getPlayerPermissions().add(permission);
 			database.saveUser(targetUser);
 			Utils.sendSuccess(player, Language.PLAYER_ADD_PERMISSION.replaceAll("<player>", target.getName()).replaceAll("<permission>", permission));
 		} else if (type.equals("remove")) {
+			if (!targetUser.getPlayerPermissions().contains(permission)) {
+				Utils.sendError(player, Language.PERMISSION_NOT_GRANTED);
+				return;
+			}
 			targetUser.getPlayerPermissions().remove(permission);
 			database.saveUser(targetUser);
 			Utils.sendSuccess(player, Language.PLAYER_REMOVE_PERMISSION.replaceAll("<player>", target.getName()).replaceAll("<permission>", permission));

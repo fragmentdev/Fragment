@@ -36,10 +36,18 @@ public class UserGroupCommand {
 		}
 
 		if (type.equals("add")) {
+			if (targetUser.getGroups().contains(group)) {
+				Utils.sendError(player, Language.GROUP_ALREADY_GRANTED);
+				return;
+			}
 			targetUser.getGroups().add(group);
 			database.saveUser(targetUser);
 			Utils.sendSuccess(player, Language.GROUP_GRANT_TO_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
 		} else if (type.equals("remove")) {
+			if (targetUser.getGroups().contains(group)) {
+				Utils.sendError(player, Language.GROUP_NOT_GRANTED);
+				return;
+			}
 			targetUser.getGroups().remove(group);
 			database.saveUser(targetUser);
 			Utils.sendSuccess(player, Language.GROUP_GRANT_REMOVED_FROM_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));

@@ -64,6 +64,14 @@ public class Language {
 			messages.getOrSetDefault("GROUP_NOT_GRANTED", "&cThis group is not granted.")
 	);
 
+	public static String PERMISSION_ALREADY_GRANTED = ChatColor.translateAlternateColorCodes('&',
+			messages.getOrSetDefault("PERMISSION_ALREADY_GRANTED", "&cThis permission is already granted.")
+	);
+
+	public static String PERMISSION_NOT_GRANTED = ChatColor.translateAlternateColorCodes('&',
+			messages.getOrSetDefault("PERMISSION_NOT_GRANTED", "&cThis permission is not granted.")
+	);
+
 
 
 	public static String GROUP_ADD_PERMISSION = ChatColor.translateAlternateColorCodes('&',
