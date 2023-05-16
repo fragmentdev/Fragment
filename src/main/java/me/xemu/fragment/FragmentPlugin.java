@@ -97,6 +97,11 @@ public class FragmentPlugin extends JavaPlugin {
 		userCommand.setTabCompleter(new UserTabComplete());
 
 		getCommand("fragment").setExecutor(new FragmentCommand());
+
+		getLogger().info("§8§m-----------------------------------");
+		getLogger().info("§aFragment was successfully loaded.");
+		getLogger().info("§aDevelopers: Xemu & DevScape");
+		getLogger().info("§8§m-----------------------------------");
 	}
 
 	private void loadEvents() {
@@ -153,7 +158,7 @@ public class FragmentPlugin extends JavaPlugin {
 		return menuUtil;
 	}
 
-	private void loadDatabase() {
+	public void loadDatabase() {
 		if (getConfigManager().getConfig().getString("database.integration").equalsIgnoreCase("MySQL")) {
 			this.fragmentDatabase = new MySqlDatabase(
 					getConfigManager().getConfig().getOrSetDefault("database.host", "localhost"),
