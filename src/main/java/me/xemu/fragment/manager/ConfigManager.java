@@ -16,6 +16,8 @@ public class ConfigManager {
 		createConfigFile();
 		createMessagesFile();
 		createDatabaseFile();
+
+		getConfig().setDefault("database.integration", "Json");
 	}
 
 	public void createConfigFile() {

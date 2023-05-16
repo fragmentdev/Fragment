@@ -23,7 +23,7 @@ public class TestCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		Receiver receiver = new Receiver(FragmentPlugin.getFragmentPlugin());
+		Receiver receiver = new Receiver(FragmentPlugin.getInstance());
 		receiver.startReceiver(player, "Group Name").thenAccept(a -> {
 			player.sendMessage("Creating group " + a);
 		});

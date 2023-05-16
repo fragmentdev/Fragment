@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
+import me.xemu.fragment.database.MySqlDatabase;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
@@ -57,8 +58,14 @@ public class FragmentPlugin extends JavaPlugin {
 		configManager.load();
 
 		setConstants();
-		fragmentDatabase = new JsonDatabase();
-		fragmentDatabase.load();
+
+		loadDatabase();
+		if (fragmentDatabase != null) {
+			fragmentDatabase.load();
+		} else {
+			Bukkit.getLogger().warning("Could not establish database connection as the DB is not defined. Turning off plugin.");
+			this.getServer().getPluginManager().disablePlugin(this);
+		}
 
 		discordManager = new DiscordManager();
 		discordManager.init();
@@ -144,5 +151,19 @@ public class FragmentPlugin extends JavaPlugin {
 		}
 
 		return menuUtil;
+	}
+
+	private void loadDatabase() {
+		if (getConfigManager().getConfig().getString("database.integration").equalsIgnoreCase("MySQL")) {
+			this.fragmentDatabase = new MySqlDatabase(
+					getConfigManager().getConfig().getOrSetDefault("database.host", "localhost"),
+					getConfigManager().getConfig().getOrSetDefault("database.port", 3306),
+					getConfigManager().getConfig().getOrSetDefault("database.username", "user"),
+					getConfigManager().getConfig().getOrSetDefault("database.password", "password"),
+					getConfigManager().getConfig().getOrSetDefault("database.database", "database")
+			);
+		} else {
+			this.fragmentDatabase = new JsonDatabase();
+		}
 	}
 }
