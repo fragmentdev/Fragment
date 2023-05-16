@@ -5,19 +5,14 @@ import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import me.xemu.fragment.language.Language;
-import me.xemu.fragment.utils.Message;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 // group group <add/remove> <player> <group>
 public class UserGroupCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String targetString, String type, String groupName) {

@@ -12,7 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@EventHandler(priority = EventPriority.HIGH)

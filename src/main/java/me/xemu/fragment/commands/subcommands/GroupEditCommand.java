@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class GroupEditCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String groupName, String key, String[] args) {

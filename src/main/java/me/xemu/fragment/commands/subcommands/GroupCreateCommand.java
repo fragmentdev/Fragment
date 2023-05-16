@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class GroupCreateCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String groupName, int weight) {

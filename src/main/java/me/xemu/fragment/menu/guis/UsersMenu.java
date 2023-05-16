@@ -43,6 +43,8 @@ public class UsersMenu extends Paged {
 
         if (displayname.equalsIgnoreCase("Users")) {
             new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
+        } else if (displayname.equalsIgnoreCase("Groups")) {
+            new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Back")) {
             if (page != 0) {
                 page = page - 1;
@@ -70,7 +72,7 @@ public class UsersMenu extends Paged {
             for (int i = startIndex; i < endIndex; i++) {
                 Player player = players.get(i);
                 if (player == null) continue;
-                User user = FragmentPlugin.getFragmentPlugin().getFragmentDatabase().loadUser(player);
+                User user = FragmentPlugin.getInstance().getFragmentDatabase().loadUser(player);
 
                 List<String> lore = new ArrayList<>();
                 lore.add("&7Groups: (name, weight)");

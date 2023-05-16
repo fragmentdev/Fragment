@@ -7,7 +7,6 @@ import org.bukkit.command.TabCompleter;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
@@ -28,18 +27,18 @@ public class GroupTabComplete implements TabCompleter {
 			completions.add("self");
 			// Add other subcommands here
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
-			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("info")) {
-			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("permission")) {
 			completions.add("add");
 			completions.add("remove");
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("permission")) {
-			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		 } else if (args.length == 4 && args[0].equalsIgnoreCase("permission")) {
 			completions.addAll(getAllPermissions());
 		}	else if (args.length == 2 && args[0].equalsIgnoreCase("removeperm")) {
-			completions.addAll(FragmentPlugin.getFragmentPlugin().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("edit")) {
 			completions.add("prefix");
 			completions.add("suffix");

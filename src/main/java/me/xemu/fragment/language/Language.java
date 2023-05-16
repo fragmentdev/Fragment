@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 
 public class Language {
 
-	private static Yaml messages = FragmentPlugin.getFragmentPlugin().getConfigManager().getMessages();
+	private static Yaml messages = FragmentPlugin.getInstance().getConfigManager().getMessages();
 
 	public static String NO_PERMISSION = ChatColor.translateAlternateColorCodes('&',
 			messages.getOrSetDefault("NO_PERMISSION", "&cYou do not have the right permissions to do this.")

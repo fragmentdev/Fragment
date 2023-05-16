@@ -10,6 +10,14 @@ public class ConfigManager {
 	private Yaml messages;
 	private Json database;
 
+	public ConfigManager() {}
+
+	public void load() {
+		createConfigFile();
+		createMessagesFile();
+		createDatabaseFile();
+	}
+
 	public void createConfigFile() {
 		this.config = new Yaml("config", "plugins/Fragment");
 	}

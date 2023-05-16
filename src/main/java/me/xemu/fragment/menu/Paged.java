@@ -28,8 +28,8 @@ public abstract class Paged extends Menu {
             getInventory().setItem(48, makeItem(Material.ARROW, "&f&lBack"));
             getInventory().setItem(50, makeItem(Material.ARROW, "&f&lNext"));
         } else {
-            getInventory().setItem(48, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-            getInventory().setItem(50, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
+            getInventory().setItem(48, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+            getInventory().setItem(50, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         }
 
         // CATEGORY ITEMS
@@ -39,32 +39,32 @@ public abstract class Paged extends Menu {
         getInventory().setItem(36, makeItem(Material.BOOK, "&f&lAbout Fragment"));
 
         /// GLASS ITEMS
-        getInventory().setItem(0, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(2, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(3, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(4, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(5, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(6, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(7, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(8, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
+        getInventory().setItem(0, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(2, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(3, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(4, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(5, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(6, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(7, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(8, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
 
-        getInventory().setItem(17, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(26, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(35, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(44, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(45, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(47, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(49, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(51, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(52, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(53, makeItem(Material.GRAY_STAINED_GLASS_PANE, ""));
+        getInventory().setItem(17, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(26, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(35, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(44, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(45, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(47, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(49, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(51, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(52, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(53, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
 
-        getInventory().setItem(1, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(10, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(19, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(28, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(37, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
-        getInventory().setItem(46, makeItem(Material.WHITE_STAINED_GLASS_PANE, ""));
+        getInventory().setItem(1, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(10, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(19, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(28, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(37, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(46, makeItem(Material.WHITE_STAINED_GLASS_PANE, "&6"));
 
 
     }

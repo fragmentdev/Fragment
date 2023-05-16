@@ -6,10 +6,8 @@ import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +15,7 @@ import java.util.Optional;
 // group permission <type> <permission>
 public class GroupSelf {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player) {

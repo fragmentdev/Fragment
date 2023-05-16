@@ -10,11 +10,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class RemoveGrantCommand implements CommandExecutor {
 
-	private FragmentPlugin plugin = FragmentPlugin.getFragmentPlugin();
+	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@Override
@@ -23,9 +22,19 @@ public class RemoveGrantCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+		String version = FragmentPlugin.getInstance().getDescription().getVersion();
+
 		if (!player.hasPermission("fragment.admin")) {
 			Utils.sendError(player, Language.NO_PERMISSION);
 			return true;
+		}
+
+		if (args.length == 0) {
+			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
+			player.sendMessage(Utils.translate("&aFragment v" + version + "&7 by &bXemu & DevScape&7."));
+			player.sendMessage(Utils.translate("&7Advanced Permission Framework"));
+			player.sendMessage(Utils.translate("&7> &b/grant <User> <Group> - Add a group to a player."));
+			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
 		}
 
 		// grant <user> <group>

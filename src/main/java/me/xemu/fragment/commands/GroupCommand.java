@@ -1,5 +1,6 @@
 package me.xemu.fragment.commands;
 
+import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.commands.subcommands.*;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
@@ -16,8 +17,22 @@ public class GroupCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+		String version = FragmentPlugin.getInstance().getDescription().getVersion();
+
 		if (!player.hasPermission("fragment.admin")) {
 			Utils.sendError(player, Language.NO_PERMISSION);
+			return true;
+		}
+
+		if (args.length == 0) {
+			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
+			player.sendMessage(Utils.translate("&aFragment v" + version + "&7 by &bXemu & DevScape&7."));
+			player.sendMessage(Utils.translate("&7Advanced Permission Framework"));
+			player.sendMessage(Utils.translate("&7> &b/group create <Name> <Weight> - Create a group."));
+			player.sendMessage(Utils.translate("&7> &b/group edit <Name> <Key> <Value> - Edit a group."));
+			player.sendMessage(Utils.translate("&7> &b/group delete <Name> - Delete a group."));
+			player.sendMessage(Utils.translate("&7> &b/group permission <Add/Remove> <Name> <Permission> - Add a permission."));
+			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
 			return true;
 		}
 
