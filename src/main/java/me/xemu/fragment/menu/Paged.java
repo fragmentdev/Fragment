@@ -35,8 +35,7 @@ public abstract class Paged extends Menu {
         // CATEGORY ITEMS
         getInventory().setItem(9, makeItem(Material.PLAYER_HEAD, "&f&lUsers"));
         getInventory().setItem(18, makeItem(Material.CHEST, "&f&lGroups"));
-        getInventory().setItem(27, makeItem(Material.REPEATER, "&f&lSettings"));
-        getInventory().setItem(36, makeItem(Material.BOOK, "&f&lAbout Fragment"));
+        getInventory().setItem(36, makeItem(Material.REPEATER, "&f&lSettings"));
 
         /// GLASS ITEMS
         getInventory().setItem(0, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
@@ -51,6 +50,7 @@ public abstract class Paged extends Menu {
         getInventory().setItem(17, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         getInventory().setItem(26, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         getInventory().setItem(35, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
+        getInventory().setItem(27, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         getInventory().setItem(44, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         getInventory().setItem(45, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));
         getInventory().setItem(47, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));

@@ -60,6 +60,8 @@ public class GroupsMenu extends Paged {
             new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Groups")) {
             new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
+        } else if (displayname.equalsIgnoreCase("Settings")) {
+            new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Back")) {
             if (page != 0) {
                 page = page - 1;

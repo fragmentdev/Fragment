@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
-import me.xemu.fragment.database.MySqlDatabase;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
@@ -58,14 +57,8 @@ public class FragmentPlugin extends JavaPlugin {
 		configManager.load();
 
 		setConstants();
-
-		loadDatabase();
-		if (fragmentDatabase != null) {
-			fragmentDatabase.load();
-		} else {
-			Bukkit.getLogger().warning("Could not establish database connection as the DB is not defined. Turning off plugin.");
-			this.getServer().getPluginManager().disablePlugin(this);
-		}
+		fragmentDatabase = new JsonDatabase();
+		fragmentDatabase.load();
 
 		discordManager = new DiscordManager();
 		discordManager.init();
@@ -97,11 +90,6 @@ public class FragmentPlugin extends JavaPlugin {
 		userCommand.setTabCompleter(new UserTabComplete());
 
 		getCommand("fragment").setExecutor(new FragmentCommand());
-
-		getLogger().info("§8§m-----------------------------------");
-		getLogger().info("§aFragment was successfully loaded.");
-		getLogger().info("§aDevelopers: Xemu & DevScape");
-		getLogger().info("§8§m-----------------------------------");
 	}
 
 	private void loadEvents() {
@@ -156,19 +144,5 @@ public class FragmentPlugin extends JavaPlugin {
 		}
 
 		return menuUtil;
-	}
-
-	public void loadDatabase() {
-		if (getConfigManager().getConfig().getString("database.integration").equalsIgnoreCase("MySQL")) {
-			this.fragmentDatabase = new MySqlDatabase(
-					getConfigManager().getConfig().getOrSetDefault("database.host", "localhost"),
-					getConfigManager().getConfig().getOrSetDefault("database.port", 3306),
-					getConfigManager().getConfig().getOrSetDefault("database.database", "database"),
-					getConfigManager().getConfig().getOrSetDefault("database.username", "user"),
-					getConfigManager().getConfig().getOrSetDefault("database.password", "password")
-			);
-		} else {
-			this.fragmentDatabase = new JsonDatabase();
-		}
 	}
 }

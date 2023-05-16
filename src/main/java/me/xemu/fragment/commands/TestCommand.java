@@ -1,13 +1,19 @@
 package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.commands.subcommands.UserGroupCommand;
+import me.xemu.fragment.commands.subcommands.UserPermissionCommand;
 import me.xemu.fragment.language.Language;
-import me.xemu.fragment.utils.Interaction;
+import me.xemu.fragment.menu.guis.MainMenu;
+import me.xemu.fragment.utils.Receiver;
 import me.xemu.fragment.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class TestCommand implements CommandExecutor {
 
@@ -17,8 +23,8 @@ public class TestCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		Interaction interaction = new Interaction(FragmentPlugin.getInstance());
-		interaction.startReceiver(player, "Group Name").thenAccept(a -> {
+		Receiver receiver = new Receiver(FragmentPlugin.getInstance());
+		receiver.startReceiver(player, "Group Name").thenAccept(a -> {
 			player.sendMessage("Creating group " + a);
 		});
 

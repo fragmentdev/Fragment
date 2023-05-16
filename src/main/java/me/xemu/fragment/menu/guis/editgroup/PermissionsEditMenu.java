@@ -6,6 +6,7 @@ import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.menu.guis.GroupsMenu;
 import me.xemu.fragment.menu.guis.MainMenu;
+import me.xemu.fragment.menu.guis.SettingsMenu;
 import me.xemu.fragment.menu.guis.UsersMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -67,9 +68,7 @@ public class PermissionsEditMenu extends Paged {
                 super.open();
             }
         } else if (displayname.equalsIgnoreCase("Settings")) {
-            e.setCancelled(true);
-        } else if (displayname.equalsIgnoreCase("About Fragment")) {
-            e.setCancelled(true);
+            new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else {
             String perm = displayname;
 
