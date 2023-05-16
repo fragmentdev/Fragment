@@ -47,6 +47,8 @@ public class UsersMenu extends Paged {
             if (page != 0) {
                 page = page - 1;
                 super.open();
+            } else {
+                new MainMenu(FragmentPlugin.getMenuUtil(player)).open();
             }
         } else if (displayname.equalsIgnoreCase("Next")) {
             if (!((index + 1) >= Bukkit.getOnlinePlayers().size())) {
