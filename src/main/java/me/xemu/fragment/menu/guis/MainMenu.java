@@ -34,6 +34,8 @@ public class MainMenu extends Paged {
             new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Groups")) {
             new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
+        } else if (displayname.equalsIgnoreCase("About Fragment")) {
+            new InfoMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Back")) {
             if (page != 0) {
                 page = page - 1;

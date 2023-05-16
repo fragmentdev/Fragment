@@ -158,9 +158,9 @@ public class FragmentPlugin extends JavaPlugin {
 			this.fragmentDatabase = new MySqlDatabase(
 					getConfigManager().getConfig().getOrSetDefault("database.host", "localhost"),
 					getConfigManager().getConfig().getOrSetDefault("database.port", 3306),
+					getConfigManager().getConfig().getOrSetDefault("database.database", "database"),
 					getConfigManager().getConfig().getOrSetDefault("database.username", "user"),
-					getConfigManager().getConfig().getOrSetDefault("database.password", "password"),
-					getConfigManager().getConfig().getOrSetDefault("database.database", "database")
+					getConfigManager().getConfig().getOrSetDefault("database.password", "password")
 			);
 		} else {
 			this.fragmentDatabase = new JsonDatabase();

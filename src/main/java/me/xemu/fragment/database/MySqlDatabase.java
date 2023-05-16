@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -38,9 +39,13 @@ public class MySqlDatabase implements FragmentDatabase {
 	@Override
 	public void load() {
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password)) {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (uuid VARCHAR(36) PRIMARY KEY, groups TEXT, permissions TEXT)");
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS groups (name VARCHAR(100) PRIMARY KEY, weight INT, prefix VARCHAR(100), suffix VARCHAR(100), format VARCHAR(100), permissions TEXT)");
+			if (connection != null) {
+				Statement statement = connection.createStatement();
+				statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (uuid VARCHAR(36) PRIMARY KEY, groups TEXT, permissions TEXT)");
+				statement.executeUpdate("CREATE TABLE IF NOT EXISTS groups (name VARCHAR(100) PRIMARY KEY, weight INT, prefix VARCHAR(100), suffix VARCHAR(100), format VARCHAR(100), permissions TEXT)");
+			} else {
+				Bukkit.getLogger().info("Connection failed to MySQL. Check your settings in the config file.");
+			}
 		} catch (SQLException ex) {
 			throw new RuntimeException("Failed to connect to MySQL database", ex);
 		}
@@ -57,7 +62,8 @@ public class MySqlDatabase implements FragmentDatabase {
 				String groupsString = result.getString("groups");
 				String permissionsString = result.getString("permissions");
 				List<Group> groups = deserializeGroups(groupsString);
-				return new User(uuid, groups, deserializePermissions(permissionsString));
+				List<String> permissions = deserializePermissions(permissionsString);
+				return new User(uuid, groups, permissions);
 			}
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
@@ -87,6 +93,7 @@ public class MySqlDatabase implements FragmentDatabase {
 			throw new RuntimeException(ex);
 		}
 	}
+
 
 	@Override
 	public List<User> getUsers() {
@@ -217,6 +224,10 @@ public class MySqlDatabase implements FragmentDatabase {
 	}
 
 	private String serializeGroups(List<Group> groups) {
+		if (groups == null || groups.isEmpty()) {
+			return "";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		for (Group group : groups) {
 			sb.append(group.getName()).append(",");
@@ -224,8 +235,14 @@ public class MySqlDatabase implements FragmentDatabase {
 		return sb.toString();
 	}
 
+
 	private List<Group> deserializeGroups(String groupsString) {
 		List<Group> groups = new ArrayList<>();
+
+		if (groupsString == null || groupsString.isEmpty()) {
+			return groups;
+		}
+
 		String[] groupNames = groupsString.split(",");
 		for (String groupName : groupNames) {
 			Group group = loadGroup(groupName);
@@ -236,7 +253,12 @@ public class MySqlDatabase implements FragmentDatabase {
 		return groups;
 	}
 
+
 	private String serializePermissions(List<String> permissions) {
+		if (permissions == null || permissions.isEmpty()) {
+			return "";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		for (String permission : permissions) {
 			sb.append(permission).append(",");
@@ -244,8 +266,14 @@ public class MySqlDatabase implements FragmentDatabase {
 		return sb.toString();
 	}
 
+
 	private List<String> deserializePermissions(String permissionsString) {
 		List<String> permissions = new ArrayList<>();
+
+		if (permissionsString == null || permissionsString.isEmpty()) {
+			return permissions;
+		}
+
 		String[] permissionNames = permissionsString.split(",");
 		for (String permissionName : permissionNames) {
 			permissions.add(permissionName);
