@@ -16,3 +16,5 @@ commands:
     description: Main Fragment Command
   user:
     description: Handle user
+  grants:
+    description: View and manage grants

@@ -90,6 +90,7 @@ public class FragmentPlugin extends JavaPlugin {
 		userCommand.setTabCompleter(new UserTabComplete());
 
 		getCommand("fragment").setExecutor(new FragmentCommand());
+		getCommand("grants").setExecutor(new GrantsCommand());
 	}
 
 	private void loadEvents() {
