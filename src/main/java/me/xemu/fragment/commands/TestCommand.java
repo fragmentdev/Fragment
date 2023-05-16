@@ -5,6 +5,7 @@ import me.xemu.fragment.commands.subcommands.UserGroupCommand;
 import me.xemu.fragment.commands.subcommands.UserPermissionCommand;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.menu.guis.MainMenu;
+import me.xemu.fragment.utils.Interaction;
 import me.xemu.fragment.utils.Receiver;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
@@ -23,13 +24,8 @@ public class TestCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-<<<<<<< Updated upstream
-		Receiver receiver = new Receiver(FragmentPlugin.getInstance());
-		receiver.startReceiver(player, "Group Name").thenAccept(a -> {
-=======
 		Interaction interaction = new Interaction(FragmentPlugin.getInstance());
 		interaction.startInteraction(player, "Group Name").thenAccept(a -> {
->>>>>>> Stashed changes
 			player.sendMessage("Creating group " + a);
 		});
 

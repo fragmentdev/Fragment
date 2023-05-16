@@ -15,22 +15,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
-public class SettingsMenu extends Paged {
+public class GrantMenu extends Paged {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private Player target;
 
-	public SettingsMenu(MenuUtil menuUtil) {
+	protected List<Group> groups;
+
+	public GrantMenu(MenuUtil menuUtil, Player target) {
 		super(menuUtil);
+		this.target = target;
+
+		this.groups = plugin.getFragmentDatabase().getGroups();
 	}
 
 	@Override
 	public String getMenuName() {
-		return "Fragment > Settings:";
+		return "Fragment > Grant Player:";
 	}
 
 	@Override
@@ -59,38 +64,32 @@ public class SettingsMenu extends Paged {
 				page = page + 1;
 				super.open();
 			}
-		} else if (displayname.equalsIgnoreCase("Database Integration")) {
-			player.closeInventory();
-			Receiver receiver = new Receiver(plugin);
-			Interaction interaction = new Interaction(plugin);
-			interaction.startInteraction(player, "Database System - JSON or MySQL?").thenAccept(received -> {
-				if (received.equalsIgnoreCase("JSON")) {
-					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
-					plugin.getConfigManager().getConfig().write();
-					super.open();
-				} else if (received.equalsIgnoreCase("MySQL")) {
-					plugin.getConfigManager().getConfig().set("database.integration", "MySQL");
-					plugin.getConfigManager().getConfig().write();
-					super.open();
-
-					if (plugin.getFragmentDatabase() instanceof MySqlDatabase) {
-						player.sendMessage(ChatColor.GOLD + "Fragment Warning: You just updated your integration to MySQL. Remember to edit your login settings to MySQL in config, or the plugin will crash.");
-					}
-				} else {
-					player.sendMessage(ChatColor.RED + "Invalid response type: " + received);
-				}
-			});
+		}
 
 			//plugin.loadDatabase();
-		}
 	}
 
 	@Override
 	public void setMenuItems() {
 		applyLayout(false);
 
-		getInventory().setItem(21, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
-		getInventory().setItem(22, makeItem(Material.PAPER, "&a&lMySQL Specific", "§a" + "Requires MySQL Integration."));
-		getInventory().setItem(30, makeItem(Material.PAPER, "&aWebhook", "§aSetup the webhook"));
+		if (!groups.isEmpty()) {
+			int maxItemsPerPage = 24;
+			int startIndex = page * maxItemsPerPage;
+			int endIndex = Math.min(startIndex + maxItemsPerPage, groups.size());
+
+			for (int i = startIndex; i < endIndex; i++) {
+				Group g = groups.get(i);
+				if (group == null) continue;
+				Group group = plugin.getFragmentDatabase().loadGroup(g.getName());
+
+				List<String> lore = new ArrayList<>();
+				lore.add("&7Groups: (name, weight)");
+				for (Group group : user.getGroups()) {
+					lore.add(" &8&l> &f&l" + group.getName() + " &7- &e" + group.getWeight());
+				}
+				getInventory().addItem(makeItem(Material.PLAYER_HEAD, "&e&n" + player.getName(), lore));
+			}
+		}
 	}
 }
