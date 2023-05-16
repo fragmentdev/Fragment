@@ -60,8 +60,13 @@ public class SettingsMenu extends Paged {
 			}
 		} else if (displayname.equalsIgnoreCase("Database Integration")) {
 			player.closeInventory();
+<<<<<<< Updated upstream
 			Receiver receiver = new Receiver(plugin);
 			receiver.startReceiver(player, "Database System - JSON or MySQL?").thenAccept(received -> {
+=======
+			Interaction interaction = new Interaction(plugin);
+			interaction.startInteraction(player, "Database System - JSON or MySQL?").thenAccept(received -> {
+>>>>>>> Stashed changes
 				if (received.equalsIgnoreCase("JSON")) {
 					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
 					plugin.getConfigManager().getConfig().write();
@@ -87,12 +92,8 @@ public class SettingsMenu extends Paged {
 	public void setMenuItems() {
 		applyLayout(false);
 
-		getInventory().setItem(21, makeItem(Material.PAPER, "&aPlugin Version", "§7Version: §a" + plugin.getDescription().getVersion()));
-		getInventory().setItem(22, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
-		getInventory().setItem(23, makeItem(Material.PAPER, "&aAuthors", "§a" + plugin.getDescription().getAuthors()));
-		getInventory().setItem(24, makeItem(Material.PAPER, "&aWebhook Enabled", "§a" + plugin.WEBHOOK_ENABLED));
-		getInventory().setItem(30, makeItem(Material.PAPER, "&aLanguage", "§a" + "English / Custom"));
-		getInventory().setItem(31, makeItem(Material.PAPER, "&aConfigs", "§a" + "Created"));
-
+		getInventory().setItem(21, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
+		getInventory().setItem(22, makeItem(Material.PAPER, "&a&lMySQL Specific", "§a" + "Requires MySQL Integration."));
+		getInventory().setItem(30, makeItem(Material.PAPER, "&aWebhook", "§aSetup the webhook"));
 	}
 }

@@ -23,8 +23,13 @@ public class TestCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+<<<<<<< Updated upstream
 		Receiver receiver = new Receiver(FragmentPlugin.getInstance());
 		receiver.startReceiver(player, "Group Name").thenAccept(a -> {
+=======
+		Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+		interaction.startInteraction(player, "Group Name").thenAccept(a -> {
+>>>>>>> Stashed changes
 			player.sendMessage("Creating group " + a);
 		});
 
