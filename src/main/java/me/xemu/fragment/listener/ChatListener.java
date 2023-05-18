@@ -26,7 +26,7 @@ public class ChatListener implements Listener {
 
 			if (playerGroup == null) {
 				return;
-			}		
+			}	
 
 			Message prefix = new Message(playerGroup.getPrefix())
 					.colorize()
