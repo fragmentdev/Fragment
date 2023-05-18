@@ -73,13 +73,16 @@ public class GrantsMenu extends Paged {
 		groups.forEach(g -> {
 			if (displayname.equalsIgnoreCase(g.getName())) {
 				User t = plugin.getFragmentDatabase().loadUser(target);
-				t.getGroups().remove(g);
+				ArrayList<Group> targetGroups = new ArrayList<>();
+				targetGroups.addAll(groups);
+				targetGroups.remove(g);
 				plugin.getFragmentDatabase().saveUser(t);
 
 				player.closeInventory();
 				String message = Language.GROUP_GRANT_REMOVED_FROM_PLAYER
-								.replace("<group>", g.getName())
-										.replace("<player>", target.getName());
+						.replace("<group>", g.getName())
+						.replace("<player>", target.getName());
+
 				player.sendMessage(message);
 			}
 		});

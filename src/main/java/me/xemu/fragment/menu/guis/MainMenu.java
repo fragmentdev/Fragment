@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
@@ -64,7 +65,12 @@ public class MainMenu extends Paged {
         getInventory().setItem(22, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
         getInventory().setItem(23, makeItem(Material.PAPER, "&aAuthors", "§a" + plugin.getDescription().getAuthors()));
         getInventory().setItem(24, makeItem(Material.PAPER, "&aWebhook Enabled", "§a" + plugin.WEBHOOK_ENABLED));
-        getInventory().setItem(30, makeItem(Material.PAPER, "&aLanguage", "§a" + "English / Custom"));
-        getInventory().setItem(31, makeItem(Material.PAPER, "&aConfigs", "§a" + "Created"));
+        ItemStack stack = null;
+        if (FragmentPlugin.FORMAT_ENABLED) {
+            stack = makeItem(Material.GREEN_STAINED_GLASS_PANE, "&aFragment Chat enabled!", "§7Fragment Chat Format enabled!");
+        } else {
+            stack = makeItem(Material.RED_STAINED_GLASS_PANE, "&cFragment Chat disabled!", "§7Fragment Chat Format disabled!");
+        }
+        getInventory().setItem(30, stack);
     }
 }

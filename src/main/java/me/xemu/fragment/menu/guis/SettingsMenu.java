@@ -74,6 +74,14 @@ public class SettingsMenu extends Paged {
 			});
 
 			//plugin.loadDatabase();
+		} else if (displayname.equalsIgnoreCase("MySQL Specific")) {
+			boolean sqlEnabled = plugin.getConfig().getString("database.integration").equalsIgnoreCase("MySQL") ? true : false;
+			if (sqlEnabled) {
+
+			} else {
+				e.setCancelled(true);
+
+			}
 		}
 	}
 
