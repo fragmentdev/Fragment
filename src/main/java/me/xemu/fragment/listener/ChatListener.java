@@ -2,6 +2,7 @@ package me.xemu.fragment.listener;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.utils.Message;
 import me.xemu.fragment.utils.Utils;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
@@ -18,29 +19,42 @@ public class ChatListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		Player player = event.getPlayer();
-		Group playerGroup = Utils.getHeaviestGroup(plugin.getFragmentDatabase().loadUser(player.getUniqueId())
-				.getGroups());
+		if (FragmentPlugin.FORMAT_ENABLED) {
+			Player player = event.getPlayer();
+			Group playerGroup = Utils.getHeaviestGroup(plugin.getFragmentDatabase().loadUser(player.getUniqueId())
+					.getGroups());
 
-		if (playerGroup == null) {
-			return;
+			if (playerGroup == null) {
+				return;
+			}	
+
+			Message prefix = new Message(playerGroup.getPrefix())
+					.colorize()
+					.placeholderApi(player);
+
+			Message suffix = new Message(playerGroup.getSuffix())
+					.colorize()
+					.placeholderApi(player);
+
+			Message playerName = new Message(player.getName())
+					.colorize()
+					.placeholderApi(player);
+
+			Message message = new Message(event.getMessage())
+					.colorize()
+					.placeholderApi(player);
+
+			String format = new Message(playerGroup.getFormat()).colorize().placeholderApi(player).getMessage();
+			if (playerGroup.getFormat().equals("")) {
+				format = new Message(FragmentPlugin.DEFAULT_FORMAT).colorize().placeholderApi(player).getMessage();
+			}
+			format = format.replace("{Prefix}", prefix.getMessage())
+					.replace("{Player}", playerName.getMessage())
+					.replace("{Suffix}", suffix.getMessage())
+					.replace("{Message}", message.getMessage());
+
+			event.setFormat(format);
 		}
-
-		String prefix = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getPrefix()));
-		String suffix = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getSuffix()));
-		String playerName = PlaceholderAPI.setPlaceholders(player, player.getDisplayName());
-		String message = event.getMessage();
-
-		String format = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getFormat()));
-		if (playerGroup.getFormat().equals("")) {
-			format = PlaceholderAPI.setPlaceholders(player, Utils.translate(FragmentPlugin.DEFAULT_FORMAT));
-		}
-		format = format.replace("{Prefix}", prefix)
-				.replace("{Player}", playerName)
-				.replace("{Suffix}", suffix)
-				.replace("{Message}", message);
-
-		event.setFormat(format);
 	}
 
 }

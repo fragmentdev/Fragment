@@ -3,6 +3,7 @@ package me.xemu.fragment.utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,11 @@ public class Message {
 		} else {
 			Bukkit.getLogger().info(getMessage());
 		}
+	}
+
+	public Message placeholderApi(Player player) {
+		setMessage(PlaceholderAPI.setPlaceholders(player, message));
+		return this;
 	}
 
 }

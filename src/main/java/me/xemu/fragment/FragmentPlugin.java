@@ -33,6 +33,7 @@ public class FragmentPlugin extends JavaPlugin {
 	private FragmentDatabase fragmentDatabase;
 
 	public static String DEFAULT_FORMAT;
+	public static boolean FORMAT_ENABLED;
 
 	public static String DEFAULT_GROUP;
 
@@ -116,6 +117,9 @@ public class FragmentPlugin extends JavaPlugin {
 		DEFAULT_GROUP = getInstance().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("default-group", "Default");
+		FORMAT_ENABLED = getInstance().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("format-enabled", true);
 		FORCE_DEFAULT_GROUP = getInstance().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("force-default-group", Boolean.TRUE);
