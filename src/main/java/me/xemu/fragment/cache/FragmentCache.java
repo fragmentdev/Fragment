@@ -32,6 +32,47 @@ public class FragmentCache {
 		}
 	}
 
+	public void updateUser(Player player) {
+		if (userCache.contains(asString(player.getUniqueId()))) {
+			userCache.remove(asString(player.getUniqueId()));
+			userCache.put(asString(player.getUniqueId()), loadUser(player));
+		} else {
+			User user = FragmentPlugin.getInstance().getFragmentDatabase().loadUser(player);
+			userCache.put(asString(player.getUniqueId()), user);
+		}
+	}
+
+	public void removeUser(Player player) {
+		if (userCache.contains(asString(player.getUniqueId()))) {
+			userCache.remove(asString(player.getUniqueId()));
+		}
+	}
+
+	public Group loadGroup(String name) {
+		if (groupCache.contains(name)) {
+			Group group = groupCache.get(name);
+			return group;
+		} else {
+			Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(name);
+			groupCache.put(group.getName(), group);
+			return group;
+		}
+	}
+
+	public void updateGroup(Group group) {
+		if (groupCache.contains(group.getName())) {
+			groupCache.remove(group.getName());
+			groupCache.put(group.getName(), group);
+		} else {
+			FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+			groupCache.put(group.getName(), group);
+		}
+	}
+
+	public void removeGroup(Group group) {
+		groupCache.remove(group.getName());
+	}
+
 	public String asString(UUID uuid) {
 		return uuid.toString();
 	}
