@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
+import me.xemu.fragment.hooks.PapiHook;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
 import me.xemu.fragment.manager.ConfigManager;
@@ -99,6 +100,15 @@ public class FragmentPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MenuListener(), this);
 	}
 
+	private void loadPlaceholderApi() {
+		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+			new PapiHook().register();
+			Bukkit.getLogger().info("Hooked into PlaceholderAPI.");
+		} else {
+			Bukkit.getLogger().info("Couldn't find PlaceholderAPI.");
+		}
+	}
+
 	public void setConstants() {
 		DEFAULT_FORMAT = getInstance().getConfigManager()
 				.getConfig()
@@ -115,6 +125,8 @@ public class FragmentPlugin extends JavaPlugin {
 		WEBHOOK_URL = getInstance().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("discord-webhook", "PLACE-HERE");
+
+
 	}
 
 	public HashMap<Player, MenuUtil> getMenuUtil() {

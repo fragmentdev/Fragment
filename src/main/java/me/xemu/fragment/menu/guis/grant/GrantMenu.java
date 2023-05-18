@@ -1,7 +1,6 @@
 package me.xemu.fragment.menu.guis.grant;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.database.MySqlDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import me.xemu.fragment.language.Language;
@@ -10,11 +9,8 @@ import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.menu.guis.GroupsMenu;
 import me.xemu.fragment.menu.guis.MainMenu;
 import me.xemu.fragment.menu.guis.UsersMenu;
-import me.xemu.fragment.utils.Interaction;
-import me.xemu.fragment.utils.Receiver;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

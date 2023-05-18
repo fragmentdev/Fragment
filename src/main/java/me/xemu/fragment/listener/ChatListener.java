@@ -1,5 +1,6 @@
 package me.xemu.fragment.listener;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.utils.Utils;
 import me.xemu.fragment.database.FragmentDatabase;
@@ -25,14 +26,14 @@ public class ChatListener implements Listener {
 			return;
 		}
 
-		String prefix = Utils.translate(playerGroup.getPrefix());
-		String suffix = Utils.translate(playerGroup.getSuffix());
-		String playerName = player.getDisplayName();
+		String prefix = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getPrefix()));
+		String suffix = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getSuffix()));
+		String playerName = PlaceholderAPI.setPlaceholders(player, player.getDisplayName());
 		String message = event.getMessage();
 
-		String format = Utils.translate(playerGroup.getFormat());
+		String format = PlaceholderAPI.setPlaceholders(player, Utils.translate(playerGroup.getFormat()));
 		if (playerGroup.getFormat().equals("")) {
-			format = Utils.translate(FragmentPlugin.DEFAULT_FORMAT);
+			format = PlaceholderAPI.setPlaceholders(player, Utils.translate(FragmentPlugin.DEFAULT_FORMAT));
 		}
 		format = format.replace("{Prefix}", prefix)
 				.replace("{Player}", playerName)
