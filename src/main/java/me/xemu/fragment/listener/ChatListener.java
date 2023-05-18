@@ -21,8 +21,7 @@ public class ChatListener implements Listener {
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		if (FragmentPlugin.FORMAT_ENABLED) {
 			Player player = event.getPlayer();
-			Group playerGroup = Utils.getHeaviestGroup(plugin.getFragmentDatabase().loadUser(player.getUniqueId())
-					.getGroups());
+			Group playerGroup = Utils.getHeaviestGroup(database.loadUser(player.getUniqueId()).getGroups());
 
 			if (playerGroup == null) {
 				return;
