@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class GroupHandler {
-
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase db = plugin.getFragmentDatabase();
 
@@ -31,6 +30,14 @@ public class GroupHandler {
 		players.forEach(p -> addGroupToPlayer(p, group, save));
 	}
 
+	public List<Group> getGroupsByPlayerId(UUID uuid) {
+		return db.loadUser(uuid).getGroups();
+	}
+
+	public List<Group> getGroupsByPlayer(Player player) {
+		return getGroupsByPlayerId(player.getUniqueId());
+	}
+
 	public void removeGroupFromPlayerId(UUID uuid, Group group, boolean save) {
 		User user = db.loadUser(uuid);
 		user.getGroups().remove(group);
@@ -46,6 +53,14 @@ public class GroupHandler {
 	public Group getGroupByName(String name) {
 		if (db.loadGroup(name) == null) return null;
 		return db.loadGroup(name);
+	}
+
+	public boolean hasGroup(UUID uuid, Group group) {
+		return getGroupsByPlayerId(uuid).contains(group);
+	}
+
+	public boolean hasGroup(Player player, Group group) {
+		return getGroupsByPlayer(player).contains(group);
 	}
 
 	public List<Group> getGroupsByPredicate(Predicate<Group> groupPredicate) {

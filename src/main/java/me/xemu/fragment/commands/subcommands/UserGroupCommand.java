@@ -4,6 +4,7 @@ import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import me.xemu.fragment.handler.GroupHandler;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ public class UserGroupCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
+	private GroupHandler groupHandler = plugin.getGroupHandler();
 
 	public void execute(Player player, String targetString, String type, String groupName) {
 		User user = database.loadUser(player.getUniqueId());
@@ -22,7 +24,7 @@ public class UserGroupCommand {
 			return;
 		}
 
-		Group group = database.loadGroup(groupName);
+		Group group = groupHandler.getGroupByName(groupName);
 		if (group == null) {
 			Utils.sendError(player, Language.GROUP_DOESNT_EXIST);
 			return;
@@ -36,20 +38,20 @@ public class UserGroupCommand {
 		}
 
 		if (type.equals("add")) {
-			if (targetUser.getGroups().contains(group)) {
+			if (groupHandler.hasGroup(target, group)) {
 				Utils.sendError(player, Language.GROUP_ALREADY_GRANTED);
 				return;
 			}
-			targetUser.getGroups().add(group);
-			database.saveUser(targetUser);
+
+			groupHandler.addGroupToPlayer(target, group, true);
 			Utils.sendSuccess(player, Language.GROUP_GRANT_TO_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
 		} else if (type.equals("remove")) {
-			if (targetUser.getGroups().contains(group)) {
+			if (!groupHandler.hasGroup(target, group)) {
 				Utils.sendError(player, Language.GROUP_NOT_GRANTED);
 				return;
 			}
-			targetUser.getGroups().remove(group);
-			database.saveUser(targetUser);
+
+			groupHandler.removeGroupFromPlayer(target, group, true);
 			Utils.sendSuccess(player, Language.GROUP_GRANT_REMOVED_FROM_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
 		}
 	}

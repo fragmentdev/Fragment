@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
+import me.xemu.fragment.handler.GroupHandler;
 import me.xemu.fragment.hooks.PapiHook;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
@@ -31,6 +32,8 @@ public class FragmentPlugin extends JavaPlugin {
 	private DiscordManager discordManager;
 
 	private FragmentDatabase fragmentDatabase;
+
+	private GroupHandler groupHandler;
 
 	public static String DEFAULT_FORMAT;
 	public static boolean FORMAT_ENABLED;
@@ -64,6 +67,8 @@ public class FragmentPlugin extends JavaPlugin {
 
 		discordManager = new DiscordManager();
 		discordManager.init();
+
+		groupHandler = new GroupHandler();
 
 		loadCommands();
 		loadEvents();
