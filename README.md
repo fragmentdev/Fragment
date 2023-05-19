@@ -6,3 +6,16 @@ The main developers are currently [Xemu / Project Leader](https://github.com/cod
 
 As Fragment is open sourced, you can fork it and make changes and compile it as you would like. Fragment is constantly developed
 and you can view progress. Our branches are currently public. 
+
+### Current Features
+* Fragment GUI (Group Edit, User Edit, Settings Edit, and more)
+* Weight-Based Groups 
+* Lightning fast storage (JSON & MySQL)
+* Discord Webhook Logging 
+* Configurable language
+* Discord support
+* **And much more!**
+
+### Be a contributor!
+Want to help out and contribute to Fragment, then you can fork and create a pull request with a informative description of what you have done to improve the plugin.
+[Want to become a official contributor for Fragment? Join our discord!](https://discord.gg/BFpZDPkyCC)
