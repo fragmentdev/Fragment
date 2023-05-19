@@ -17,11 +17,6 @@ public class TestCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		Interaction interaction = new Interaction(FragmentPlugin.getInstance());
-		interaction.startInteraction(player, "Group Name").thenAccept(a -> {
-			player.sendMessage("Creating group " + a);
-		});
-
 		return true;
 	}
 

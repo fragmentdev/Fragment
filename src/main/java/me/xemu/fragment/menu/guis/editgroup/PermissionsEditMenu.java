@@ -72,7 +72,7 @@ public class PermissionsEditMenu extends Paged {
             new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Manual Permission Add")) {
             Interaction interaction = new Interaction(FragmentPlugin.getInstance());
-            interaction.startInteraction(player, "Permission Node").thenAccept(interactionAccept -> {
+            interaction.startInteraction(player, "Permission Node", this, FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).thenAccept(interactionAccept -> {
                 player.closeInventory();
                 Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
                if (!group.getPermissions().contains(interactionAccept)) {

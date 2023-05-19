@@ -6,6 +6,7 @@ import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
+import me.xemu.fragment.menu.guis.editgroup.GroupEditMenu;
 import me.xemu.fragment.menu.guis.editgroup.PermissionsEditMenu;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -52,7 +53,7 @@ public class GroupsMenu extends Paged {
         if (item.hasNBTData() && e.getCurrentItem().getType() == Material.CHEST) {
             String group = item.getString("group");
 
-            new PermissionsEditMenu(FragmentPlugin.getMenuUtil(player, group)).open();
+            new GroupEditMenu(FragmentPlugin.getMenuUtil(player, group)).open();
             menuUtil.setGroup(group);
         }
 
@@ -104,7 +105,7 @@ public class GroupsMenu extends Paged {
                 lore.add("&7Suffix: " + group.getSuffix());
                 lore.add("&7Permissions: (" + group.getPermissions().size() + ")");
                 lore.add("");
-                lore.add("&eClick to toggle permissions!");
+                lore.add("&eClick to manage group!");
 
                 nbt.setString("group", group.getName());
 

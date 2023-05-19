@@ -38,7 +38,7 @@ public class UserGroupCommand {
 		}
 
 		if (type.equals("add")) {
-			
+
 			if (groupHandler.hasGroup(target, group)) {
 				Utils.sendError(player, Language.GROUP_ALREADY_GRANTED);
 				return;

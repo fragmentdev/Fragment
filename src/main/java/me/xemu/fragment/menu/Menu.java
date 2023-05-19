@@ -1,5 +1,7 @@
 package me.xemu.fragment.menu;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,6 +16,8 @@ import java.util.List;
 import static me.xemu.fragment.utils.Utils.color;
 import static me.xemu.fragment.utils.Utils.translate;
 
+@Getter
+@Setter
 public abstract class Menu implements InventoryHolder {
 
     protected Inventory inventory;

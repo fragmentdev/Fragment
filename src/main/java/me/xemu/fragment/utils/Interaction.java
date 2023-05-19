@@ -1,11 +1,14 @@
 package me.xemu.fragment.utils;
 
+import me.xemu.fragment.menu.Menu;
+import me.xemu.fragment.menu.MenuUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -24,7 +27,7 @@ public class Interaction implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	public CompletableFuture<String> startInteraction(Player player, String question) {
+	public CompletableFuture<String> startInteraction(Player player, String question, Menu menu, MenuUtil menuUtil) {
 		CompletableFuture<String> future = new CompletableFuture<>();
 
 		player.sendTitle(ChatColor.GREEN + "§l" + question, "Write your answer in the chat.");
@@ -37,11 +40,18 @@ public class Interaction implements Listener {
 				if (!future.isDone()) {
 					future.complete(null);
 					awaitingAnswers.remove(player.getUniqueId());
+
+					menu.setMenuUtil(menuUtil);
+					menu.open();
 				}
 			}
 		}.runTaskLater(plugin, 20 * 30); // Adjust the delay (in ticks) to the desired timeout period
 
 		return future;
+	}
+
+	public boolean isAnswerReceived(Player player) {
+		return awaitingAnswers.containsKey(player.getUniqueId());
 	}
 
 	@EventHandler
