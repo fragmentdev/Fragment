@@ -1,7 +1,6 @@
 package me.xemu.fragment.menu.guis.editgroup;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.menu.MenuUtil;
@@ -29,8 +28,7 @@ public class GroupEditMenu extends Paged {
 
     private FragmentPlugin plugin = FragmentPlugin.getInstance();
     private FragmentDatabase database = plugin.getFragmentDatabase();
-    private FragmentCache cache = plugin.getCache(); // TODO: implement cache
-    
+
     private Group group;
     
 
@@ -80,6 +78,10 @@ public class GroupEditMenu extends Paged {
                 Group group = database.loadGroup(menuUtil.getGroup());
                 group.setPrefix(interactionAccept);
                 database.saveGroup(group);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    // Reopen the GUI
+                    reOpenMenu(player);
+                });
             });
         } else if (displayname.equalsIgnoreCase("Group Suffix")) {
             Interaction interaction = new Interaction(plugin);
@@ -88,6 +90,10 @@ public class GroupEditMenu extends Paged {
                 Group group = database.loadGroup(menuUtil.getGroup());
                 group.setSuffix(interactionAccept);
                 database.saveGroup(group);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    // Reopen the GUI
+                    reOpenMenu(player);
+                });
             });
         } else if (displayname.equalsIgnoreCase("Group Format")) {
             Interaction interaction = new Interaction(plugin);
@@ -96,6 +102,10 @@ public class GroupEditMenu extends Paged {
                 Group group = database.loadGroup(menuUtil.getGroup());
                 group.setFormat(interactionAccept);
                 database.saveGroup(group);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    // Reopen the GUI
+                    reOpenMenu(player);
+                });
             });
         } else if (displayname.equalsIgnoreCase("Group Weight")) {
             Interaction interaction = new Interaction(plugin);
@@ -109,6 +119,10 @@ public class GroupEditMenu extends Paged {
                     return;
                 }
                 database.saveGroup(group);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    // Reopen the GUI
+                    reOpenMenu(player);
+                });
             });
         } else if (displayname.equalsIgnoreCase("Manage Permissions")) {
             new PermissionsEditMenu(FragmentPlugin.getMenuUtil(player, group.getName())).open();

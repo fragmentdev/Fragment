@@ -1,10 +1,10 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
-import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
+import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.handler.GroupHandler;
 import me.xemu.fragment.hooks.FragmentHook;
 import me.xemu.fragment.hooks.PapiHook;
@@ -31,7 +31,6 @@ import java.util.List;
 public class FragmentPlugin extends JavaPlugin {
 
 	private static FragmentPlugin instance;
-	private FragmentCache cache;
 
 	private ConfigManager configManager;
 	private DiscordManager discordManager;
@@ -46,6 +45,7 @@ public class FragmentPlugin extends JavaPlugin {
 	public static String DEFAULT_GROUP;
 
 	public static boolean FORCE_DEFAULT_GROUP;
+	public static boolean FORCE_CREATE_DEFAULT_GROUP;
 
 	public static boolean WEBHOOK_ENABLED;
 
@@ -64,7 +64,6 @@ public class FragmentPlugin extends JavaPlugin {
 
 	private void init() {
 		instance = this;
-		cache = new FragmentCache();
 
 		configManager = new ConfigManager();
 		configManager.load();
@@ -86,6 +85,10 @@ public class FragmentPlugin extends JavaPlugin {
 		loadHooks(); // Attempt to load Placeholder API
 
 		new Metrics(this, pluginId);
+
+		if (FORCE_CREATE_DEFAULT_GROUP && getFragmentDatabase().loadGroup(DEFAULT_GROUP) == null) {
+			getFragmentDatabase().saveGroup(new Group("Default", 1, "", "", "&a[Default] {Player]&8: &r{Message}", null));
+		}
 	}
 
 	public static FragmentPlugin getInstance() {
@@ -153,6 +156,10 @@ public class FragmentPlugin extends JavaPlugin {
 		WEBHOOK_URL = getInstance().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("discord-webhook", "PLACE-HERE");
+
+		FORCE_CREATE_DEFAULT_GROUP = getInstance().getConfigManager()
+				.getConfig()
+				.getOrSetDefault("force-create-default-group", Boolean.TRUE);
 
 
 	}

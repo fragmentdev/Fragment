@@ -73,9 +73,7 @@ public class GrantsMenu extends Paged {
 		groups.forEach(g -> {
 			if (displayname.equalsIgnoreCase(g.getName())) {
 				User t = plugin.getFragmentDatabase().loadUser(target);
-				ArrayList<Group> targetGroups = new ArrayList<>();
-				targetGroups.addAll(groups);
-				targetGroups.remove(g);
+				t.getGroups().remove(g);
 				plugin.getFragmentDatabase().saveUser(t);
 
 				player.closeInventory();

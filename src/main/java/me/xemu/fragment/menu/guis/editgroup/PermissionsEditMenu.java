@@ -72,13 +72,16 @@ public class PermissionsEditMenu extends Paged {
             new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Manual Permission Add")) {
             Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            player.closeInventory();
             interaction.startInteraction(player, "Permission Node", this, FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).thenAccept(interactionAccept -> {
                 player.closeInventory();
                 Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
                if (!group.getPermissions().contains(interactionAccept)) {
                    group.getPermissions().add(interactionAccept);
                    FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
-                   player.openInventory(getInventory());
+                   Bukkit.getScheduler().runTask(FragmentPlugin.getInstance(), () -> {
+                       reOpenMenu(player);
+                   });
                } else {
                    super.open();
                }
@@ -130,5 +133,9 @@ public class PermissionsEditMenu extends Paged {
         }
 
         return permissions;
+    }
+
+    private void reOpenMenu(Player player) {
+        new GroupEditMenu(FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).open();
     }
 }

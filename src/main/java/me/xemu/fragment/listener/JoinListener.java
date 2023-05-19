@@ -17,6 +17,7 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+
 		User user = database.loadUser(player.getUniqueId());
 		Group group = database.loadGroup(FragmentPlugin.DEFAULT_GROUP);
 

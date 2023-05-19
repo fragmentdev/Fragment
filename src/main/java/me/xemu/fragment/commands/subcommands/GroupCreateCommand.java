@@ -1,9 +1,9 @@
 package me.xemu.fragment.commands.subcommands;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
+import me.xemu.fragment.handler.GroupHandler;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.entity.Player;
@@ -16,10 +16,10 @@ public class GroupCreateCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
-	private FragmentCache cache = plugin.getCache();
+	private GroupHandler groupHandler = plugin.getGroupHandler();
 
 	public void execute(Player player, String groupName, int weight) {
-		if (cache.loadGroup(groupName) != null) {
+		if (groupHandler.getGroupByName(groupName) != null) {
 			Utils.sendError(player, Language.GROUP_ALREADY_EXISTS);
 			return;
 		}
@@ -44,7 +44,6 @@ public class GroupCreateCommand {
 		}
 
 		database.saveGroup(group);
-		cache.loadGroup(groupName);
 
 		Map<String, String> strings = new HashMap<>();
 		strings.put("Group", group.getName());

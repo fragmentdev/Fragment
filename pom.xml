@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.xemu</groupId>
-    <artifactId>fragment</artifactId>
-    <version>1.0.0</version>
+    <artifactId>Fragment</artifactId>
+    <version>1.1.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -32,6 +32,7 @@ public class GrantMenu extends Paged {
 		this.target = target;
 
 		this.groups = plugin.getFragmentDatabase().getGroups();
+		groups.removeAll(plugin.getFragmentDatabase().loadUser(target).getGroups());
 	}
 
 	@Override
@@ -70,6 +71,10 @@ public class GrantMenu extends Paged {
 		groups.forEach(g -> {
 			if (displayname.equalsIgnoreCase(g.getName())) {
 				User t = plugin.getFragmentDatabase().loadUser(target);
+				if (t.getGroups().contains(g)) {
+					player.closeInventory();
+					player.sendMessage(Language.GROUP_ALREADY_GRANTED);
+				}
 				t.getGroups().add(g);
 				plugin.getFragmentDatabase().saveUser(t);
 
@@ -103,6 +108,8 @@ public class GrantMenu extends Paged {
 				lore.add(Utils.translate("&aClick to grant to " + target.getName()));
 				getInventory().addItem(makeItem(Material.CHEST, "&e&n" + g.getName(), lore));
 			}
+		} else {
+			getInventory().setItem(21, makeItem(Material.BARRIER, "&cNo available groups.", "§7The user most likely has all groups granted already."));
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package me.xemu.fragment.menu.guis;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.database.MySqlDatabase;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.utils.Interaction;
@@ -60,14 +59,6 @@ public class SettingsMenu extends Paged {
 					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
 					plugin.getConfigManager().getConfig().write();
 					new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
-				} else if (received.equalsIgnoreCase("MySQL")) {
-					plugin.getConfigManager().getConfig().set("database.integration", "MySQL");
-					plugin.getConfigManager().getConfig().write();
-					new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
-
-					if (plugin.getFragmentDatabase() instanceof MySqlDatabase) {
-						player.sendMessage(ChatColor.GOLD + "Fragment Warning: You just updated your integration to MySQL. Remember to edit your login settings to MySQL in config, or the plugin will crash.");
-					}
 				} else {
 					player.sendMessage(ChatColor.RED + "Invalid response type: " + received);
 				}
@@ -89,8 +80,6 @@ public class SettingsMenu extends Paged {
 	public void setMenuItems() {
 		applyLayout(false);
 
-		getInventory().setItem(21, makeItem(Material.PAPER, "&aDatabase Integration", "§7Integration: §a" + plugin.getFragmentDatabase().getIdentifier()));
-		getInventory().setItem(22, makeItem(Material.PAPER, "&a&lMySQL Specific", "§a" + "Requires MySQL Integration."));
-		getInventory().setItem(30, makeItem(Material.PAPER, "&aWebhook", "§aSetup the webhook"));
+		getInventory().setItem(21, makeItem(Material.BARRIER, "&cComing soon", "§7In-game configuration coming very soon!"));
 	}
 }
