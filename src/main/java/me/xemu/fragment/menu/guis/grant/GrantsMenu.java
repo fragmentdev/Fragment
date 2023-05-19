@@ -71,6 +71,15 @@ public class GrantsMenu extends Paged {
 		} else if (displayname.equalsIgnoreCase("Grant Group")) {
 			player.closeInventory();
 			new GrantMenu(FragmentPlugin.getMenuUtil(player), target).open();
+		} else if (groups.stream().map(m -> m.getName()).toList().contains(displayname)) {
+			Group group = plugin.getFragmentDatabase().loadGroup(displayname);
+			plugin.getGroupHandler().removeGroupFromPlayer(target, group, true);
+			player.closeInventory();
+
+			String message = Language.GROUP_GRANT_REMOVED_FROM_PLAYER;
+			message = message.replaceAll("<group>", group.getName()).replaceAll("<player>", target.getName());
+
+			player.sendMessage(message);
 		}
 
 		groups.forEach(g -> {

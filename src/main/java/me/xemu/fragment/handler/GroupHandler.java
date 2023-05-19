@@ -16,7 +16,9 @@ public class GroupHandler {
 
 	public void addGroupToPlayerId(UUID uuid, Group group, boolean save) {
 		User user = db.loadUser(uuid);
-		user.getGroups().add(group);
+		if (!user.getGroups().contains(group)) {
+			user.getGroups().add(group);
+		}
 		if (save) {
 			db.saveUser(user);
 		}

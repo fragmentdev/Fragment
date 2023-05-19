@@ -3,6 +3,7 @@ package me.xemu.fragment.menu.guis.grant;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import me.xemu.fragment.handler.GroupHandler;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
@@ -25,6 +26,7 @@ public class GrantMenu extends Paged {
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private Player target;
 	private User targetUser;
+	private GroupHandler groupHandler;
 
 	protected List<Group> groups;
 
@@ -32,6 +34,7 @@ public class GrantMenu extends Paged {
 		super(menuUtil);
 		this.target = target;
 		this.targetUser = plugin.getFragmentDatabase().loadUser(target);
+		this.groupHandler = new GroupHandler();
 
 		this.groups = plugin.getFragmentDatabase().getGroups().stream().filter(group -> !targetUser.getGroups().contains(group)).toList();
 	}
@@ -67,22 +70,13 @@ public class GrantMenu extends Paged {
 				page = page + 1;
 				super.open();
 			}
+		} else if (groups.stream().map(m -> m.getName()).toList().contains(displayname)) {
+			Group group = plugin.getGroupHandler().getGroupByName(displayname);
+			plugin.getGroupHandler().addGroupToPlayer(target, group, true);
+
+			player.closeInventory();
+			player.sendMessage(Language.GROUP_GRANT_TO_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
 		}
-
-		groups.forEach(g -> {
-			if (displayname.equalsIgnoreCase(g.getName())) {
-				User t = plugin.getFragmentDatabase().loadUser(target);
-				if (t.getGroups().contains(g)) {
-					player.closeInventory();
-					player.sendMessage(Language.GROUP_ALREADY_GRANTED);
-				}
-				t.getGroups().add(g);
-				plugin.getFragmentDatabase().saveUser(t);
-
-				player.closeInventory();
-				player.sendMessage(Language.GROUP_GRANT_TO_PLAYER.replace("<group>", g.getName().replace("<player>", target.getName())));
-			}
-		});
 
 			//plugin.loadDatabase();
 	}
