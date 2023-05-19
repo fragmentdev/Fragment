@@ -1,6 +1,7 @@
 package me.xemu.fragment.commands.subcommands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.language.Language;
@@ -11,6 +12,7 @@ public class GroupEditCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
+	private FragmentCache cache = plugin.getCache();
 
 	public void execute(Player player, String groupName, String key, String[] args) {
 		if (database.loadGroup(groupName) == null) {
@@ -27,7 +29,8 @@ public class GroupEditCommand {
 
 		Group group = database.loadGroup(groupName);
 
-		performEdit(group, key, value);
+		performEdit(player, group, key, value);
+		cache.updateGroup(group);
 
 		Utils.sendSuccess(player, Language.GROUP_EDITED.replaceAll("<group>".replaceAll("<key>", key).replaceAll("<value>", value), group.getName()));
 
@@ -55,9 +58,13 @@ public class GroupEditCommand {
 		return sb.toString();
 	}
 
-	private void performEdit(Group group, String key, String value) {
+	private void performEdit(Player player, Group group, String key, String value) {
 		switch(key) {
 			case "weight":
+				if (Integer.parseInt(value) >= Integer.MAX_VALUE) {
+					Utils.sendError(player, "Group weight increases the max integer value supported by Java. Make it under " + Integer.MAX_VALUE);
+					return;
+				}
 				group.setWeight(Integer.parseInt(value));
 				plugin.getFragmentDatabase().saveGroup(group);
 				break;

@@ -1,6 +1,7 @@
 package me.xemu.fragment.commands.subcommands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.language.Language;
@@ -15,10 +16,17 @@ public class GroupCreateCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
+	private FragmentCache cache = plugin.getCache();
 
 	public void execute(Player player, String groupName, int weight) {
 		if (database.loadGroup(groupName) != null) {
 			Utils.sendError(player, Language.GROUP_ALREADY_EXISTS);
+			return;
+		}
+
+		// Prevent a error throwing
+		if (weight >= Integer.MAX_VALUE) {
+			Utils.sendError(player, "Group weight increases the max integer value supported by Java. Make it under " + Integer.MAX_VALUE);
 			return;
 		}
 
@@ -36,6 +44,7 @@ public class GroupCreateCommand {
 		}
 
 		database.saveGroup(group);
+		cache.loadGroup(groupName);
 
 		Map<String, String> strings = new HashMap<>();
 		strings.put("Group", group.getName());

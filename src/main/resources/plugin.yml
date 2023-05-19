@@ -4,6 +4,8 @@ main: me.xemu.fragment.FragmentPlugin
 version: 1.0.0
 api-version: 1.13
 authors: ["Xemu", "DevScape"]
+softdepend:
+  - PlaceholderAPI
 
 commands:
   group:

@@ -1,6 +1,7 @@
 package me.xemu.fragment.commands.subcommands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.language.Language;
 import me.xemu.fragment.utils.Utils;
@@ -10,6 +11,7 @@ public class GroupDeleteCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
+	private FragmentCache cache = plugin.getCache();
 
 	public void execute(Player player, String groupName) {
 		if (database.loadGroup(groupName) == null) {
@@ -17,6 +19,7 @@ public class GroupDeleteCommand {
 			return;
 		}
 
+		cache.removeGroup(database.loadGroup(groupName));
 		plugin.getConfigManager().getDatabase().remove("groups." + groupName);
 
 		String message = Language.GROUP_DELETED.replaceAll("<group>", groupName);

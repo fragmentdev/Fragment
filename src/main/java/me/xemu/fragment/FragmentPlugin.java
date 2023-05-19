@@ -1,6 +1,7 @@
 package me.xemu.fragment;
 
 import lombok.Getter;
+import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 public class FragmentPlugin extends JavaPlugin {
 
 	private static FragmentPlugin instance;
+	private FragmentCache cache;
 
 	private ConfigManager configManager;
 	private DiscordManager discordManager;
@@ -57,6 +59,7 @@ public class FragmentPlugin extends JavaPlugin {
 
 	private void init() {
 		instance = this;
+		cache = new FragmentCache();
 
 		configManager = new ConfigManager();
 		configManager.load();
@@ -72,6 +75,7 @@ public class FragmentPlugin extends JavaPlugin {
 
 		loadCommands();
 		loadEvents();
+		loadPlaceholderApi(); // Attempt to load Placeholder API
 
 		new Metrics(this, pluginId);
 	}

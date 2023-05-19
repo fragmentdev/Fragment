@@ -8,6 +8,7 @@ import me.xemu.fragment.menu.guis.GroupsMenu;
 import me.xemu.fragment.menu.guis.MainMenu;
 import me.xemu.fragment.menu.guis.SettingsMenu;
 import me.xemu.fragment.menu.guis.UsersMenu;
+import me.xemu.fragment.utils.Interaction;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -69,6 +70,19 @@ public class PermissionsEditMenu extends Paged {
             }
         } else if (displayname.equalsIgnoreCase("Settings")) {
             new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
+        } else if (displayname.equalsIgnoreCase("Manual Permission Add")) {
+            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            interaction.startInteraction(player, "Permission Node").thenAccept(interactionAccept -> {
+                player.closeInventory();
+                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+               if (!group.getPermissions().contains(interactionAccept)) {
+                   group.getPermissions().add(interactionAccept);
+                   FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+                   player.openInventory(getInventory());
+               } else {
+                   super.open();
+               }
+            });
         } else {
             String perm = displayname;
 
@@ -104,6 +118,8 @@ public class PermissionsEditMenu extends Paged {
                 }
             }
         }
+
+        getInventory().setItem(53, makeItem(Material.ANVIL, "Manual Permission Add", "§7Add permission manually.", "§aClick me to add."));
     }
 
     public static List<String> getAllPermissions() {

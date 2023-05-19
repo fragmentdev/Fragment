@@ -1,6 +1,7 @@
 package me.xemu.fragment.commands.subcommands;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.cache.FragmentCache;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.language.Language;
@@ -12,6 +13,7 @@ public class GroupPermissionCommand {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
+	private FragmentCache cache = plugin.getCache();
 
 	public void execute(Player player, String groupName, String type, String permission) {
 		if (database.loadGroup(groupName) == null) {
@@ -20,6 +22,7 @@ public class GroupPermissionCommand {
 		}
 
 		Group group = database.loadGroup(groupName);
+		cache.loadGroup(group.getName());
 
 		if (type.equalsIgnoreCase("add")) {
 			if (group.getPermissions().contains(permission)) {
@@ -28,6 +31,8 @@ public class GroupPermissionCommand {
 			}
 			group.getPermissions().add(permission);
 			database.saveGroup(group);
+			cache.loadGroup(groupName);
+
 			String message = Language.GROUP_ADD_PERMISSION
 					.replaceAll("<permission>", permission)
 					.replaceAll("<group>", group.getName());
