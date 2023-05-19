@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class PapiHook extends PlaceholderExpansion {
+public class PapiHook extends PlaceholderExpansion implements FragmentHook {
 	@Override
 	public @NotNull String getIdentifier() {
 		return "fragment";
@@ -74,5 +74,20 @@ public class PapiHook extends PlaceholderExpansion {
 			return group.getFormat();
 		}
 		return null;
+	}
+
+	@Override
+	public String getPluginName() {
+		return "PlaceholderAPI";
+	}
+
+	@Override
+	public boolean requiresPlugin() {
+		return true;
+	}
+
+	@Override
+	public void registerHook() {
+		this.register();
 	}
 }

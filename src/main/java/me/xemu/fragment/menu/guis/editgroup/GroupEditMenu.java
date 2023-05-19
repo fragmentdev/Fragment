@@ -1,6 +1,8 @@
 package me.xemu.fragment.menu.guis.editgroup;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.cache.FragmentCache;
+import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
@@ -25,14 +27,20 @@ import static me.xemu.fragment.utils.Utils.deformat;
 
 public class GroupEditMenu extends Paged {
 
-    Group group;
+    private FragmentPlugin plugin = FragmentPlugin.getInstance();
+    private FragmentDatabase database = plugin.getFragmentDatabase();
+    private FragmentCache cache = plugin.getCache(); // TODO: implement cache
+    
+    private Group group;
+    
 
     public GroupEditMenu(MenuUtil menuUtil) {
         super(menuUtil);
 
-        if (FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup()) != null) {
-            group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+        if (database.loadGroup(menuUtil.getGroup()) != null) {
+            group = database.loadGroup(menuUtil.getGroup());
         }
+
     }
 
     @Override
@@ -66,41 +74,41 @@ public class GroupEditMenu extends Paged {
         } else if (displayname.equalsIgnoreCase("Settings")) {
             new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Group Prefix")) {
-            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            Interaction interaction = new Interaction(plugin);
             player.closeInventory();
             interaction.startInteraction(player, "Group Prefix", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+                Group group = database.loadGroup(menuUtil.getGroup());
                 group.setPrefix(interactionAccept);
-                FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+                database.saveGroup(group);
             });
         } else if (displayname.equalsIgnoreCase("Group Suffix")) {
-            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            Interaction interaction = new Interaction(plugin);
             player.closeInventory();
             interaction.startInteraction(player, "Group Suffix", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+                Group group = database.loadGroup(menuUtil.getGroup());
                 group.setSuffix(interactionAccept);
-                FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+                database.saveGroup(group);
             });
         } else if (displayname.equalsIgnoreCase("Group Format")) {
-            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            Interaction interaction = new Interaction(plugin);
             player.closeInventory();
             interaction.startInteraction(player, "Group Format", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+                Group group = database.loadGroup(menuUtil.getGroup());
                 group.setFormat(interactionAccept);
-                FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+                database.saveGroup(group);
             });
         } else if (displayname.equalsIgnoreCase("Group Weight")) {
-            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            Interaction interaction = new Interaction(plugin);
             player.closeInventory();
             interaction.startInteraction(player, "Group Weight (Only number)", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+                Group group = database.loadGroup(menuUtil.getGroup());
                 if (Utils.isNumber(interactionAccept)) {
                     group.setWeight(Integer.parseInt(interactionAccept));
                 } else {
                     player.sendMessage(ChatColor.RED + "You provided a String instead of an number. Weight did not change.");
                     return;
                 }
-                FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
+                database.saveGroup(group);
             });
         } else if (displayname.equalsIgnoreCase("Manage Permissions")) {
             new PermissionsEditMenu(FragmentPlugin.getMenuUtil(player, group.getName())).open();
@@ -116,6 +124,10 @@ public class GroupEditMenu extends Paged {
         getInventory().setItem(23, makeItem(Material.ANVIL, "&aGroup Format", "§7Current Format: §f" + group.getFormat()));
         getInventory().setItem(24, makeItem(Material.ANVIL, "&aGroup Weight", "§7Current Weight: §f" + group.getWeight()));
         getInventory().setItem(30, makeItem(Material.BARRIER, "&aManage Permissions", "§7Click to manage group permissions."));
+    }
+    
+    private void reOpenMenu(Player player) {
+        new GroupEditMenu(plugin.getMenuUtil(player, menuUtil.getGroup())).open();
     }
 
 }

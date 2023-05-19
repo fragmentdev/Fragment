@@ -6,6 +6,7 @@ import me.xemu.fragment.commands.*;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.JsonDatabase;
 import me.xemu.fragment.handler.GroupHandler;
+import me.xemu.fragment.hooks.FragmentHook;
 import me.xemu.fragment.hooks.PapiHook;
 import me.xemu.fragment.listener.ChatListener;
 import me.xemu.fragment.listener.JoinListener;
@@ -22,7 +23,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 public class FragmentPlugin extends JavaPlugin {
@@ -52,6 +55,8 @@ public class FragmentPlugin extends JavaPlugin {
 
 	final int pluginId = 18489;
 
+	private List<FragmentHook> hooks;
+
 	@Override
 	public void onEnable() {
 		init();
@@ -73,9 +78,12 @@ public class FragmentPlugin extends JavaPlugin {
 
 		groupHandler = new GroupHandler();
 
+		this.hooks = new ArrayList<>();
+		hooks.add(new PapiHook());
+
 		loadCommands();
 		loadEvents();
-		loadPlaceholderApi(); // Attempt to load Placeholder API
+		loadHooks(); // Attempt to load Placeholder API
 
 		new Metrics(this, pluginId);
 	}
@@ -110,13 +118,20 @@ public class FragmentPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MenuListener(), this);
 	}
 
-	private void loadPlaceholderApi() {
-		if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-			new PapiHook().register();
-			Bukkit.getLogger().info("Hooked into PlaceholderAPI.");
-		} else {
-			Bukkit.getLogger().info("Couldn't find PlaceholderAPI.");
-		}
+	private void loadHooks() {
+		hooks.forEach(hook -> {
+			if (hook.requiresPlugin()) {
+				if(Bukkit.getServer().getPluginManager().getPlugin(hook.getPluginName()) == null) {
+					Bukkit.getLogger().info("Could not load hook: <hookClass>".replaceAll("<hookClass>", hook.getClass().getName()));
+					Bukkit.getLogger().info("Required plugin " + hook.getPluginName() + " doesn't exist.");
+					Bukkit.getLogger().info("Fragment is being disabled.");
+
+					getServer().getPluginManager().disablePlugin(this);
+				} else {
+					Bukkit.getLogger().info("Loaded hook: " + hook.getClass().getName());
+				}
+			}
+		});
 	}
 
 	public void setConstants() {
