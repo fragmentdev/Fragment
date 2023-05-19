@@ -19,7 +19,7 @@ public class GroupCreateCommand {
 	private FragmentCache cache = plugin.getCache();
 
 	public void execute(Player player, String groupName, int weight) {
-		if (database.loadGroup(groupName) != null) {
+		if (cache.loadGroup(groupName) != null) {
 			Utils.sendError(player, Language.GROUP_ALREADY_EXISTS);
 			return;
 		}

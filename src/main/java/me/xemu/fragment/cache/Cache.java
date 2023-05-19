@@ -2,6 +2,7 @@ package me.xemu.fragment.cache;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Cache<T> {
 	private final Map<String, T> cacheMap;
@@ -36,5 +37,9 @@ public class Cache<T> {
 
 	public boolean isEmpty() {
 		return cacheMap.isEmpty();
+	}
+
+	public Set<String> getKeys() {
+		return cacheMap.keySet();
 	}
 }

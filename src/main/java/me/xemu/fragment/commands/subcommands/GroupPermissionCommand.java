@@ -31,7 +31,7 @@ public class GroupPermissionCommand {
 			}
 			group.getPermissions().add(permission);
 			database.saveGroup(group);
-			cache.loadGroup(groupName);
+			cache.updateGroup(group);
 
 			String message = Language.GROUP_ADD_PERMISSION
 					.replaceAll("<permission>", permission)
@@ -46,6 +46,7 @@ public class GroupPermissionCommand {
 			}
 			group.getPermissions().remove(permission);
 			database.saveGroup(group);
+			cache.updateGroup(group);
 			String message = Language.GROUP_ADD_PERMISSION
 					.replaceAll("<permission>", permission)
 					.replaceAll("<group>", group.getName());
