@@ -24,14 +24,17 @@ public class GrantsMenu extends Paged {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private Player target;
+	private User targetUser;
 
 	protected List<Group> groups;
 
 	public GrantsMenu(MenuUtil menuUtil, Player target) {
 		super(menuUtil);
 		this.target = target;
-
-		this.groups = plugin.getFragmentDatabase().loadUser(target).getGroups();
+		this.targetUser = plugin.getFragmentDatabase().loadUser(target);
+		this.groups = targetUser.getGroups().stream().filter(
+				group -> targetUser.getGroups().contains(group)
+		).toList();
 	}
 
 	@Override
@@ -73,7 +76,7 @@ public class GrantsMenu extends Paged {
 		groups.forEach(g -> {
 			if (displayname.equalsIgnoreCase(g.getName())) {
 				User t = plugin.getFragmentDatabase().loadUser(target);
-				t.getGroups().remove(g);
+				t.getGroups().removeIf(predicate -> predicate.getName().equalsIgnoreCase(g.getName()));
 				plugin.getFragmentDatabase().saveUser(t);
 
 				player.closeInventory();
@@ -112,6 +115,8 @@ public class GrantsMenu extends Paged {
 
 				getInventory().setItem(53, makeItem(Material.GREEN_BANNER, "&aGrant Group"));
 			}
+		} else {
+			getInventory().setItem(24, makeItem(Material.BARRIER, "&cNo grantable groups."));
 		}
 	}
 }

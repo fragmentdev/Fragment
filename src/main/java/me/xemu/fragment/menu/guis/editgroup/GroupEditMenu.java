@@ -15,12 +15,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.permissions.Permission;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
@@ -125,7 +119,7 @@ public class GroupEditMenu extends Paged {
                 });
             });
         } else if (displayname.equalsIgnoreCase("Manage Permissions")) {
-            new PermissionsEditMenu(FragmentPlugin.getMenuUtil(player, group.getName())).open();
+            new GroupPermissionsEditMenu(FragmentPlugin.getMenuUtil(player, group.getName())).open();
         }
     }
 

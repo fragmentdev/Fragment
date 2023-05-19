@@ -5,7 +5,6 @@ import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.menu.guis.GroupsMenu;
-import me.xemu.fragment.menu.guis.MainMenu;
 import me.xemu.fragment.menu.guis.SettingsMenu;
 import me.xemu.fragment.menu.guis.UsersMenu;
 import me.xemu.fragment.utils.Interaction;
@@ -14,18 +13,17 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.permissions.Permission;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
-public class PermissionsEditMenu extends Paged {
+public class GroupPermissionsEditMenu extends Paged {
 
     List<String> groupPermissions = new ArrayList<>();
 
-    public PermissionsEditMenu(MenuUtil menuUtil) {
+    public GroupPermissionsEditMenu(MenuUtil menuUtil) {
         super(menuUtil);
 
         if (!groupPermissions.isEmpty()) groupPermissions.clear();

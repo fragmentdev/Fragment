@@ -24,15 +24,16 @@ public class GrantMenu extends Paged {
 
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private Player target;
+	private User targetUser;
 
 	protected List<Group> groups;
 
 	public GrantMenu(MenuUtil menuUtil, Player target) {
 		super(menuUtil);
 		this.target = target;
+		this.targetUser = plugin.getFragmentDatabase().loadUser(target);
 
-		this.groups = plugin.getFragmentDatabase().getGroups();
-		groups.removeAll(plugin.getFragmentDatabase().loadUser(target).getGroups());
+		this.groups = plugin.getFragmentDatabase().getGroups().stream().filter(group -> !targetUser.getGroups().contains(group)).toList();
 	}
 
 	@Override
