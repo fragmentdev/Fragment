@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 // group permission <add/remove> <player> <group>
 public class UserPermissionCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String targetString, String type, String permission) {

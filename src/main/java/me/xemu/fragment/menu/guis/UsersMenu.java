@@ -74,7 +74,7 @@ public class UsersMenu extends Paged {
             for (int i = startIndex; i < endIndex; i++) {
                 Player player = players.get(i);
                 if (player == null) continue;
-                User user = FragmentPlugin.getInstance().getFragmentDatabase().loadUser(player);
+                User user = FragmentPlugin.getFragment().getFragmentDatabase().loadUser(player);
 
                 List<String> lore = new ArrayList<>();
                 lore.add("&7Groups: (name, weight)");

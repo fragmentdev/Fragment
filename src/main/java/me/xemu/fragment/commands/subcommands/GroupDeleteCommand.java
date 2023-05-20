@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class GroupDeleteCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String groupName) {

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class GroupCreateCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 	private GroupHandler groupHandler = plugin.getGroupHandler();
 

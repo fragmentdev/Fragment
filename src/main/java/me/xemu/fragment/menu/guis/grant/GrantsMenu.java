@@ -22,7 +22,7 @@ import static me.xemu.fragment.utils.Utils.deformat;
 
 public class GrantsMenu extends Paged {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private Player target;
 	private User targetUser;
 

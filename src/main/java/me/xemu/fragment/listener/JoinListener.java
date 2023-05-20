@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinListener implements Listener {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@EventHandler

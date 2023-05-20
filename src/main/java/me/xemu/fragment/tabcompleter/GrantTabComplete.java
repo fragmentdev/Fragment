@@ -19,7 +19,7 @@ public class GrantTabComplete implements TabCompleter {
 		if (args.length == 1) {
 			completions.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
 		} else if (args.length == 2) {
-			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getFragment().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		}
 
 		// Filter completions based on the current argument being typed

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 // group group <add/remove> <player> <group>
 public class UserGroupCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 	private GroupHandler groupHandler = plugin.getGroupHandler();
 

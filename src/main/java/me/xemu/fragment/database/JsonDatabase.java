@@ -24,7 +24,7 @@ public class JsonDatabase implements FragmentDatabase {
 
 	@Override
 	public void load() {
-		this.plugin = FragmentPlugin.getInstance();
+		this.plugin = FragmentPlugin.getFragment();
 		this.db = plugin.getConfigManager().getDatabase();
 
 	}

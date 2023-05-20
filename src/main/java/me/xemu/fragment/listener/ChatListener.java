@@ -1,6 +1,5 @@
 package me.xemu.fragment.listener;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.utils.Message;
 import me.xemu.fragment.utils.Utils;
@@ -14,7 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@EventHandler(priority = EventPriority.HIGH)

@@ -38,7 +38,7 @@ public class MenuListener implements Listener {
             InventoryHolder holder = e.getInventory().getHolder();
 
             if (holder instanceof Menu) {
-                FragmentPlugin.getInstance().getMenuUtil().remove(p);
+                FragmentPlugin.getFragment().getMenuUtil().remove(p);
             }
         }
     }

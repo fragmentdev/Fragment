@@ -26,7 +26,7 @@ public class GroupsMenu extends Paged {
         super(menuUtil);
 
         if (!groups.isEmpty()) groups.clear();
-        groups = FragmentPlugin.getInstance().getFragmentDatabase().getGroups();
+        groups = FragmentPlugin.getFragment().getFragmentDatabase().getGroups();
     }
 
     @Override

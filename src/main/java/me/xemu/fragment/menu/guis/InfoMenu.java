@@ -1,8 +1,6 @@
 package me.xemu.fragment.menu.guis;
 
 import me.xemu.fragment.FragmentPlugin;
-import me.xemu.fragment.entity.Group;
-import me.xemu.fragment.entity.User;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import org.bukkit.Bukkit;
@@ -10,14 +8,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static me.xemu.fragment.utils.Utils.deformat;
 
 public class InfoMenu extends Paged {
 
-    private FragmentPlugin plugin = FragmentPlugin.getInstance();
+    private FragmentPlugin plugin = FragmentPlugin.getFragment();
 
     public InfoMenu(MenuUtil menuUtil) {
         super(menuUtil);

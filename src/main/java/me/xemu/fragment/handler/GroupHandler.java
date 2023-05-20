@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class GroupHandler {
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase db = plugin.getFragmentDatabase();
 
 	public boolean addGroupToPlayerId(UUID uuid, Group group, boolean save) {

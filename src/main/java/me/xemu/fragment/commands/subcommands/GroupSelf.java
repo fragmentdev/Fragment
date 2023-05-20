@@ -15,7 +15,7 @@ import java.util.Optional;
 // group permission <type> <permission>
 public class GroupSelf {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player) {

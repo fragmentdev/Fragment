@@ -30,32 +30,26 @@ import java.util.List;
 @Getter
 public class FragmentPlugin extends JavaPlugin {
 
-	private static FragmentPlugin instance;
+	private static FragmentPlugin fragment;
 
 	private ConfigManager configManager;
 	private DiscordManager discordManager;
-
+	private GroupHandler groupHandler;
 	private FragmentDatabase fragmentDatabase;
 
-	private GroupHandler groupHandler;
+	private List<FragmentHook> hooks;
 
 	public static String DEFAULT_FORMAT;
 	public static boolean FORMAT_ENABLED;
-
 	public static String DEFAULT_GROUP;
-
 	public static boolean FORCE_DEFAULT_GROUP;
 	public static boolean FORCE_CREATE_DEFAULT_GROUP;
-
 	public static boolean WEBHOOK_ENABLED;
-
 	public static String WEBHOOK_URL;
 
+	private final int pluginId = 18489;
+
 	private static final HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
-
-	final int pluginId = 18489;
-
-	private List<FragmentHook> hooks;
 
 	@Override
 	public void onEnable() {
@@ -63,7 +57,7 @@ public class FragmentPlugin extends JavaPlugin {
 	}
 
 	private void init() {
-		instance = this;
+		fragment = this;
 
 		configManager = new ConfigManager();
 		configManager.load();
@@ -85,14 +79,10 @@ public class FragmentPlugin extends JavaPlugin {
 		loadHooks(); // Attempt to load Placeholder API
 
 		new Metrics(this, pluginId);
-
-		if (FORCE_CREATE_DEFAULT_GROUP && getFragmentDatabase().loadGroup(DEFAULT_GROUP) == null) {
-			getFragmentDatabase().saveGroup(new Group("Default", 1, "", "", "&a[Default] {Player]&8: &r{Message}", null));
-		}
 	}
 
-	public static FragmentPlugin getInstance() {
-		return instance;
+	public static FragmentPlugin getFragment() {
+		return fragment;
 	}
 
 	private void loadCommands() {
@@ -138,30 +128,36 @@ public class FragmentPlugin extends JavaPlugin {
 	}
 
 	public void setConstants() {
-		DEFAULT_FORMAT = getInstance().getConfigManager()
+		DEFAULT_FORMAT = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("default-format", "{Player} &8» &r{Message}");
-		DEFAULT_GROUP = getInstance().getConfigManager()
+		DEFAULT_GROUP = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("default-group", "Default");
-		FORMAT_ENABLED = getInstance().getConfigManager()
+		FORMAT_ENABLED = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("format-enabled", true);
-		FORCE_DEFAULT_GROUP = getInstance().getConfigManager()
+		FORCE_DEFAULT_GROUP = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("force-default-group", Boolean.TRUE);
-		WEBHOOK_ENABLED = getInstance().getConfigManager()
+		WEBHOOK_ENABLED = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("webhook-enabled", false);
-		WEBHOOK_URL = getInstance().getConfigManager()
+		WEBHOOK_URL = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("discord-webhook", "PLACE-HERE");
 
-		FORCE_CREATE_DEFAULT_GROUP = getInstance().getConfigManager()
+		FORCE_CREATE_DEFAULT_GROUP = getFragment().getConfigManager()
 				.getConfig()
 				.getOrSetDefault("force-create-default-group", Boolean.TRUE);
 
 
+	}
+
+	private void createDefaultGroup() {
+		if (FORCE_CREATE_DEFAULT_GROUP && getGroupHandler().getGroupByName(DEFAULT_GROUP) == null) {
+			getFragmentDatabase().saveGroup(new Group("Default", 1, "", "", "&a[Default] {Player]&8: &r{Message}", null));
+		}
 	}
 
 	public HashMap<Player, MenuUtil> getMenuUtil() {

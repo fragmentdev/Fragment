@@ -14,7 +14,7 @@ import static me.xemu.fragment.utils.Utils.deformat;
 
 public class SettingsMenu extends Paged {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 
 	public SettingsMenu(MenuUtil menuUtil) {
 		super(menuUtil);

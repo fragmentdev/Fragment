@@ -20,7 +20,7 @@ import static me.xemu.fragment.utils.Utils.deformat;
 
 public class GroupEditMenu extends Paged {
 
-    private FragmentPlugin plugin = FragmentPlugin.getInstance();
+    private FragmentPlugin plugin = FragmentPlugin.getFragment();
     private FragmentDatabase database = plugin.getFragmentDatabase();
 
     private Group group;

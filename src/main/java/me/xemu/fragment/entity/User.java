@@ -21,7 +21,7 @@ public class User {
 		List<String> permissions = getGroups().stream().flatMap(group -> group.getPermissions().stream()).toList();
 		permissions.addAll(playerPermissions); // Add all players permission
 		permissions.forEach(permission -> {
-			Bukkit.getPlayer(uuid).addAttachment(FragmentPlugin.getInstance(), permission, true);
+			Bukkit.getPlayer(uuid).addAttachment(FragmentPlugin.getFragment(), permission, true);
 			Bukkit.getLogger().info(permission);
 		});
 	}

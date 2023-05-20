@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class RemoveGrantCommand implements CommandExecutor {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	@Override
@@ -22,7 +22,7 @@ public class RemoveGrantCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		String version = FragmentPlugin.getInstance().getDescription().getVersion();
+		String version = FragmentPlugin.getFragment().getDescription().getVersion();
 
 		if (!player.hasPermission("fragment.admin")) {
 			Utils.sendError(player, Language.NO_PERMISSION);

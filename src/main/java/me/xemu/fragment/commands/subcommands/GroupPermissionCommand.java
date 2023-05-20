@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 // group permission <type> <permission>
 public class GroupPermissionCommand {
 
-	private FragmentPlugin plugin = FragmentPlugin.getInstance();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 	private FragmentDatabase database = plugin.getFragmentDatabase();
 
 	public void execute(Player player, String groupName, String type, String permission) {

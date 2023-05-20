@@ -4,7 +4,7 @@ import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
 
 public class UserValidator implements Runnable {
-    private FragmentDatabase db = FragmentPlugin.getInstance().getFragmentDatabase();
+    private FragmentDatabase db = FragmentPlugin.getFragment().getFragmentDatabase();
 
     @Override
     public void run() {

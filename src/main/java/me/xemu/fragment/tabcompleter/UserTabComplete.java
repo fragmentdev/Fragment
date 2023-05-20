@@ -20,7 +20,7 @@ public class UserTabComplete implements TabCompleter {
 		// user xemuu[0] group[1] add[2] Owner[3]
 		// user xemuu[0] permission[1] add[2] owner.perms[3]
 		if (args.length == 1) {
-			completions.addAll(FragmentPlugin.getInstance().getServer().getOnlinePlayers().stream().map(m -> m.getName()).toList());
+			completions.addAll(FragmentPlugin.getFragment().getServer().getOnlinePlayers().stream().map(m -> m.getName()).toList());
 		} else if (args.length == 2) {
 			completions.add("permission");
 			completions.add("group");
@@ -34,7 +34,7 @@ public class UserTabComplete implements TabCompleter {
 		} else if (args.length == 4 && args[1].equalsIgnoreCase("permission")) {
 			completions.addAll(getAllPermissions());
 		} else if (args.length == 4 && args[1].equalsIgnoreCase("group")) {
-			completions.addAll(FragmentPlugin.getInstance().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
+			completions.addAll(FragmentPlugin.getFragment().getFragmentDatabase().getGroups().stream().map(Group::getName).toList());
 		} else if (args.length == 4 && args[0].equalsIgnoreCase("permission")) {
 			completions.addAll(getAllPermissions());
 		}

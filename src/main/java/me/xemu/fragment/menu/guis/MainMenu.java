@@ -13,7 +13,7 @@ import static me.xemu.fragment.utils.Utils.deformat;
 
 public class MainMenu extends Paged {
 
-    private FragmentPlugin plugin = FragmentPlugin.getInstance();
+    private FragmentPlugin plugin = FragmentPlugin.getFragment();
 
     public MainMenu(MenuUtil menuUtil) {
         super(menuUtil);

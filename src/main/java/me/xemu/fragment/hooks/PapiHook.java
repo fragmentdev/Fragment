@@ -24,7 +24,7 @@ public class PapiHook extends PlaceholderExpansion implements FragmentHook {
 
 	@Override
 	public @NotNull String getVersion() {
-		return FragmentPlugin.getInstance().getDescription().getVersion();
+		return FragmentPlugin.getFragment().getDescription().getVersion();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PapiHook extends PlaceholderExpansion implements FragmentHook {
 
 	@Override
 	public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
-		User user = FragmentPlugin.getInstance().getFragmentDatabase().loadUser(player.getUniqueId());
+		User user = FragmentPlugin.getFragment().getFragmentDatabase().loadUser(player.getUniqueId());
 		List<Group> groups = user.getGroups();
 
 		if (params.equalsIgnoreCase("groupname")) {

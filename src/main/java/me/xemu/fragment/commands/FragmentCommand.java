@@ -2,6 +2,7 @@ package me.xemu.fragment.commands;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.discord.DiscordWebhook;
+import me.xemu.fragment.language.Language;
 import me.xemu.fragment.menu.guis.MainMenu;
 import me.xemu.fragment.utils.Utils;
 import org.bukkit.command.Command;
@@ -12,20 +13,18 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 
 public class FragmentCommand implements CommandExecutor {
+
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player)) return true;
 
 		Player player = (Player) sender;
-		String version = FragmentPlugin.getInstance().getDescription().getVersion();
+		String version = plugin.getDescription().getVersion();
 
 		if (!player.hasPermission("fragment.admin")) {
-			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
-			player.sendMessage(Utils.translate("&aFragment v" + version + "&7 by &bXemu & DevScape&7."));
-			player.sendMessage(Utils.translate("&7Advanced Permission Framework"));
-			player.sendMessage(Utils.translate("&cYou do not have the required admin permission to view help."));
-			player.sendMessage(Utils.translate("&8&m--------------------------------------------------"));
-			return true;
+			Utils.sendHelpMessage(player, "Invalid permission.");
 		}
 
 		if (args.length == 0) {
@@ -56,9 +55,9 @@ public class FragmentCommand implements CommandExecutor {
 			if (player.hasPermission("fragment.admin")) {
 				Utils.sendSuccess(player, "Reloaded all Fragment Files!");
 
-				FragmentPlugin.getInstance().getConfigManager().getConfig().forceReload();
-				FragmentPlugin.getInstance().getConfigManager().getMessages().forceReload();
-				FragmentPlugin.getInstance().getConfigManager().getDatabase().forceReload();
+				plugin.getConfigManager().getConfig().forceReload();
+				plugin.getConfigManager().getMessages().forceReload();
+				plugin.getConfigManager().getDatabase().forceReload();
 
 				return true;
 			}

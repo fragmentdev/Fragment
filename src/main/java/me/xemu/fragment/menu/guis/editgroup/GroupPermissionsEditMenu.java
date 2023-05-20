@@ -28,8 +28,8 @@ public class GroupPermissionsEditMenu extends Paged {
 
         if (!groupPermissions.isEmpty()) groupPermissions.clear();
 
-        if (FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup()) != null) {
-            groupPermissions = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup()).getPermissions();
+        if (FragmentPlugin.getFragment().getFragmentDatabase().loadGroup(menuUtil.getGroup()) != null) {
+            groupPermissions = FragmentPlugin.getFragment().getFragmentDatabase().loadGroup(menuUtil.getGroup()).getPermissions();
         } else {
             groupPermissions = new ArrayList<>();
         }
@@ -69,25 +69,25 @@ public class GroupPermissionsEditMenu extends Paged {
         } else if (displayname.equalsIgnoreCase("Settings")) {
             new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
         } else if (displayname.equalsIgnoreCase("Manual Permission Add")) {
-            Interaction interaction = new Interaction(FragmentPlugin.getInstance());
+            Interaction interaction = new Interaction(FragmentPlugin.getFragment());
             player.closeInventory();
             interaction.startInteraction(player, "Permission Node", this, FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).thenAccept(interactionAccept -> {
                 player.closeInventory();
-                Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+                Group group = FragmentPlugin.getFragment().getFragmentDatabase().loadGroup(menuUtil.getGroup());
                if (!group.getPermissions().contains(interactionAccept)) {
                    group.getPermissions().add(interactionAccept);
-                   FragmentPlugin.getInstance().getFragmentDatabase().saveGroup(group);
-                   Bukkit.getScheduler().runTask(FragmentPlugin.getInstance(), () -> {
+                   FragmentPlugin.getFragment().getFragmentDatabase().saveGroup(group);
+                   Bukkit.getScheduler().runTask(FragmentPlugin.getFragment(), () -> {
                        reOpenMenu(player);
                    });
                } else {
-                   super.open();
+                   reOpenMenu(player);
                }
             });
         } else {
             String perm = displayname;
 
-            Group group = FragmentPlugin.getInstance().getFragmentDatabase().loadGroup(menuUtil.getGroup());
+            Group group = FragmentPlugin.getFragment().getFragmentDatabase().loadGroup(menuUtil.getGroup());
 
             if (!group.getPermissions().contains(perm)) {
                 group.getPermissions().add(perm);
