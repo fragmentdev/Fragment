@@ -14,18 +14,20 @@ public class GroupHandler {
 	private FragmentPlugin plugin = FragmentPlugin.getInstance();
 	private FragmentDatabase db = plugin.getFragmentDatabase();
 
-	public void addGroupToPlayerId(UUID uuid, Group group, boolean save) {
+	public boolean addGroupToPlayerId(UUID uuid, Group group, boolean save) {
 		User user = db.loadUser(uuid);
 		if (!user.getGroups().contains(group)) {
 			user.getGroups().add(group);
+			return true;
 		}
 		if (save) {
 			db.saveUser(user);
 		}
+		return false;
 	}
 
-	public void addGroupToPlayer(Player player, Group group, boolean save) {
-		addGroupToPlayerId(player.getUniqueId(), group, save);
+	public boolean addGroupToPlayer(Player player, Group group, boolean save) {
+		return addGroupToPlayerId(player.getUniqueId(), group, save);
 	}
 
 	public void addGroupToPlayers(List<Player> players, Group group, boolean save) {

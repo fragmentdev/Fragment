@@ -70,12 +70,17 @@ public class GrantMenu extends Paged {
 				page = page + 1;
 				super.open();
 			}
-		} else if (groups.stream().map(m -> m.getName()).toList().contains(displayname)) {
+		} else if (groups.stream().map(Group::getName).toList().contains(displayname)) {
 			Group group = plugin.getGroupHandler().getGroupByName(displayname);
-			plugin.getGroupHandler().addGroupToPlayer(target, group, true);
+			boolean success = plugin.getGroupHandler().addGroupToPlayer(target, group, true);
+
+			if (success) {
+				player.sendMessage(Language.GROUP_GRANT_TO_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
+			} else {
+				player.sendMessage(Language.GROUP_ALREADY_GRANTED.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
+			}
 
 			player.closeInventory();
-			player.sendMessage(Language.GROUP_GRANT_TO_PLAYER.replaceAll("<player>", target.getName()).replaceAll("<group>", group.getName()));
 		}
 
 			//plugin.loadDatabase();
