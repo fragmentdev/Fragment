@@ -1,28 +1,26 @@
-package me.xemu.fragment.menu.guis;
+package me.xemu.fragment.menu.menus;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
-import me.xemu.fragment.utils.Interaction;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import static me.xemu.fragment.utils.Utils.deformat;
 
-public class SettingsMenu extends Paged {
-
+public class MainMenu extends Paged {
 	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 
-	public SettingsMenu(MenuUtil menuUtil) {
+	public MainMenu(MenuUtil menuUtil) {
 		super(menuUtil);
 	}
 
 	@Override
 	public String getMenuName() {
-		return "Fragment > Settings:";
+		return "Fragment > Main Menu:";
 	}
 
 	@Override
@@ -39,6 +37,8 @@ public class SettingsMenu extends Paged {
 			new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
 		} else if (displayname.equalsIgnoreCase("Groups")) {
 			new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
+		} else if (displayname.equalsIgnoreCase("Settings")) {
+			new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
 		} else if (displayname.equalsIgnoreCase("Back")) {
 			if (page != 0) {
 				page = page - 1;
@@ -51,28 +51,8 @@ public class SettingsMenu extends Paged {
 				page = page + 1;
 				super.open();
 			}
-		} else if (displayname.equalsIgnoreCase("Database Integration")) {
-			player.closeInventory();
-			Interaction interaction = new Interaction(plugin);
-			interaction.startInteraction(player, "Database System - JSON or MySQL?", this, FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).thenAccept(received -> {
-				if (received.equalsIgnoreCase("JSON")) {
-					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
-					plugin.getConfigManager().getConfig().write();
-					new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
-				} else {
-					player.sendMessage(ChatColor.RED + "Invalid response type: " + received);
-				}
-			});
-
-			//plugin.loadDatabase();
-		} else if (displayname.equalsIgnoreCase("MySQL Specific")) {
-			boolean sqlEnabled = plugin.getConfig().getString("database.integration").equalsIgnoreCase("MySQL") ? true : false;
-			if (sqlEnabled) {
-
-			} else {
-				e.setCancelled(true);
-
-			}
+		} else {
+			e.setCancelled(true);
 		}
 	}
 
@@ -80,6 +60,10 @@ public class SettingsMenu extends Paged {
 	public void setMenuItems() {
 		applyLayout(false);
 
-		getInventory().setItem(21, makeItem(Material.BARRIER, "&cComing soon", "§7In-game configuration coming very soon!"));
+		getInventory().setItem(21, makeItem(Material.PAPER, "&aPlugin Version", "§7Version: §a" + plugin.getDescription().getVersion()));
+		getInventory().setItem(22, makeItem(Material.PAPER, "&aDatabase Integration", "§7Fragment DB-Handler: §a" + plugin.getDatabase().getClass().getName()));
+		getInventory().setItem(23, makeItem(Material.PAPER, "&aAuthors", "§a" + plugin.getDescription().getAuthors()));
+		ItemStack stack = null;
+		getInventory().setItem(30, stack);
 	}
 }

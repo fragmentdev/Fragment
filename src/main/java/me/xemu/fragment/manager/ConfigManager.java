@@ -3,45 +3,27 @@ package me.xemu.fragment.manager;
 import de.leonhard.storage.Json;
 import de.leonhard.storage.Yaml;
 import lombok.Getter;
+import lombok.Setter;
+import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.database.implementations.JsonDatabase;
 
+@Getter
+@Setter
 public class ConfigManager {
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
 
 	private Yaml config;
 	private Yaml messages;
-	private Json database;
+	private Json jsonDatabase;
 
-	public ConfigManager() {}
-
-	public void load() {
-		createConfigFile();
-		createMessagesFile();
-		createDatabaseFile();
-	}
-
-	public void createConfigFile() {
+	public ConfigManager() {
 		this.config = new Yaml("config", "plugins/Fragment");
-	}
-
-	public void createMessagesFile() {
 		this.messages = new Yaml("messages", "plugins/Fragment");
-	}
 
-	public void createDatabaseFile() {
-		this.database = new Json("database", "plugins/Fragment");
-	}
+		if (plugin.getDatabase() instanceof JsonDatabase) {
+			this.jsonDatabase = new Json("database", "plugins/Fragment");
+		}
 
-	public Yaml getConfig() {
-		if (config == null) throw new NullPointerException("Could not get config.");
-		return config;
-	}
-
-	public Yaml getMessages() {
-		if (messages == null) throw new NullPointerException("Could not get messages.");
-		return messages;
-	}
-
-	public Json getDatabase() {
-		if (database == null) throw new NullPointerException("Could not get database.");
-		return database;
+		config.setDefault("Database.System", "json");
 	}
 }

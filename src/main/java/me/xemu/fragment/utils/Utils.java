@@ -2,6 +2,7 @@ package me.xemu.fragment.utils;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
+import me.xemu.fragment.builder.Message;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -49,7 +50,7 @@ public class Utils {
 
 	public static void sendHelpMessage(Player player, String[] message) {
 		new Message("&8&m-------------------------------").colorize().send(player);
-		new Message("&aFragment v" + FragmentPlugin.getFragment().getDescription().getVersion() + "&7 by &bXemu & DevScape&7.").colorize().send(player);
+		new Message("&aFragment v" + FragmentPlugin.getFragment().getDescription().getVersion() + "&7 by &bXemu&7.").colorize().send(player);
 		new Message("&7Advanced Permission Framework").colorize().send(player);
 		for (String string : message) {
 			new Message("&7> &b<message>").colorize().placeholder("<message>", string).send(player);

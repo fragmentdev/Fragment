@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 public class Group {
 	private String name;
 	private int weight;
@@ -17,3 +17,5 @@ public class Group {
 	private String format;
 	private List<String> permissions;
 }
+
+

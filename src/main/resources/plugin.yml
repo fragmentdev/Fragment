@@ -8,15 +8,5 @@ softdepend:
   - PlaceholderAPI
 
 commands:
-  group:
-    description: Main Fragment Command
-  grant:
-    description: Grant a group
-  removegrant:
-    description: Remove grant a group
   fragment:
-    description: Main Fragment Command
-  user:
-    description: Handle user
-  grants:
-    description: View and manage grants
+    description: Fragment Command

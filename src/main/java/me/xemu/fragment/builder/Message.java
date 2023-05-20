@@ -1,4 +1,4 @@
-package me.xemu.fragment.utils;
+package me.xemu.fragment.builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
