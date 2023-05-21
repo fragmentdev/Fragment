@@ -3,6 +3,7 @@ package me.xemu.fragment.menu.menus.create;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
+import me.xemu.fragment.manager.GroupManager;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.menu.menus.GroupsMenu;
@@ -30,7 +31,7 @@ public class GroupEditMenu extends Paged {
 		super(menuUtil);
 
 		if (database.loadGroup(menuUtil.getGroup()) != null) {
-			group = database.loadGroup(menuUtil.getGroup());
+			group = GroupManager.load(menuUtil.getGroup());
 		}
 	}
 
@@ -68,7 +69,7 @@ public class GroupEditMenu extends Paged {
 			Interaction interaction = new Interaction(plugin);
 			player.closeInventory();
 			interaction.startInteraction(player, "Group Prefix", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-				Group group = database.loadGroup(menuUtil.getGroup());
+				Group group = GroupManager.load(menuUtil.getGroup());
 				group.setPrefix(interactionAccept);
 				database.saveGroup(group);
 				Bukkit.getScheduler().runTask(plugin, () -> {
@@ -80,7 +81,7 @@ public class GroupEditMenu extends Paged {
 			Interaction interaction = new Interaction(plugin);
 			player.closeInventory();
 			interaction.startInteraction(player, "Group Suffix", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-				Group group = database.loadGroup(menuUtil.getGroup());
+				Group group = GroupManager.load(menuUtil.getGroup());
 				group.setSuffix(interactionAccept);
 				database.saveGroup(group);
 				Bukkit.getScheduler().runTask(plugin, () -> {
@@ -92,7 +93,7 @@ public class GroupEditMenu extends Paged {
 			Interaction interaction = new Interaction(plugin);
 			player.closeInventory();
 			interaction.startInteraction(player, "Group Format", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-				Group group = database.loadGroup(menuUtil.getGroup());
+				Group group = GroupManager.load(menuUtil.getGroup());
 				group.setFormat(interactionAccept);
 				database.saveGroup(group);
 				Bukkit.getScheduler().runTask(plugin, () -> {
@@ -104,7 +105,7 @@ public class GroupEditMenu extends Paged {
 			Interaction interaction = new Interaction(plugin);
 			player.closeInventory();
 			interaction.startInteraction(player, "Group Weight (Only number)", this, FragmentPlugin.getMenuUtil(player, group.getName())).thenAccept(interactionAccept -> {
-				Group group = database.loadGroup(menuUtil.getGroup());
+				Group group = GroupManager.load(menuUtil.getGroup());
 				if (Utils.isNumber(interactionAccept)) {
 					group.setWeight(Integer.parseInt(interactionAccept));
 				} else {

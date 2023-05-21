@@ -56,7 +56,7 @@ public class SettingsMenu extends Paged {
 			Interaction interaction = new Interaction(plugin);
 			interaction.startInteraction(player, "Database System - JSON or MySQL?", this, FragmentPlugin.getMenuUtil(player, menuUtil.getGroup())).thenAccept(received -> {
 				if (received.equalsIgnoreCase("JSON")) {
-					plugin.getConfigManager().getConfig().set("database.integration", "JSON");
+					plugin.getConfigManager().getConfig().set("Database.Integration", "JSON");
 					plugin.getConfigManager().getConfig().write();
 					new SettingsMenu(FragmentPlugin.getMenuUtil(player)).open();
 				} else {
@@ -66,7 +66,7 @@ public class SettingsMenu extends Paged {
 
 			//plugin.loadDatabase();
 		} else if (displayname.equalsIgnoreCase("MySQL Specific")) {
-			boolean sqlEnabled = plugin.getConfig().getString("database.integration").equalsIgnoreCase("MySQL") ? true : false;
+			boolean sqlEnabled = plugin.getConfig().getString("Database.Integration").equalsIgnoreCase("MySQL") ? true : false;
 			if (sqlEnabled) {
 
 			} else {

@@ -3,6 +3,7 @@ package me.xemu.fragment.menu.menus;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
+import me.xemu.fragment.manager.UserManager;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import org.bukkit.Bukkit;
@@ -75,7 +76,7 @@ public class UsersMenu extends Paged {
 			for (int i = startIndex; i < endIndex; i++) {
 				Player player = players.get(i);
 				if (player == null) continue;
-				User user = FragmentPlugin.getFragment().getDatabase().loadUser(player.getUniqueId());
+				User user = UserManager.load(player.getUniqueId());
 
 				List<String> lore = new ArrayList<>();
 				lore.add("&7Groups: (name, weight)");
