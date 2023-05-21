@@ -6,6 +6,9 @@ import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.UUID;
+
 public class UserManager {
 
     private FragmentPlugin plugin = FragmentPlugin.getFragment();
@@ -43,6 +46,27 @@ public class UserManager {
         if (save) {
             database.saveUser(user);
         }
+    }
+
+    public List<Group> getGroups(User user) {
+        return user.getGroups();
+    }
+
+    public boolean hasGroup(User user, Group group) {
+        if (user.getGroups().contains(group)) return true;
+        return false;
+    }
+
+    public boolean hasGroup(Player player, Group group) {
+        return hasGroup(UserManager.load(player), group);
+    }
+
+    public static User load(UUID uuid) {
+        return FragmentPlugin.getFragment().getDatabase().loadUser(uuid);
+    }
+
+    public static User load(Player player) {
+        return load(player.getUniqueId());
     }
 
 }

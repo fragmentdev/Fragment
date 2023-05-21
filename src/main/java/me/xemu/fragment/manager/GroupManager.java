@@ -61,4 +61,13 @@ public class GroupManager {
 		return getAllGroups().stream().filter(predicate).toList();
 	}
 
+	// TODO: Customizable properties for Default Group
+	public void createDefaultGroup() {
+		if (ConfigManager.AUTO_CREATE_DEFAULT_GROUP) {
+			if (database.loadGroup(ConfigManager.DEFAULT_GROUP) == null) {
+				createGroup(ConfigManager.DEFAULT_GROUP, 10, "&9[Default]", "&f", "", null);
+			}
+		}
+	}
+
 }
