@@ -1,6 +1,7 @@
 package me.xemu.fragment.database.implementations;
 
 import de.leonhard.storage.Json;
+import lombok.Getter;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
@@ -9,9 +10,10 @@ import me.xemu.fragment.entity.User;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class JsonDatabase implements FragmentDatabase {
 	private final FragmentPlugin plugin = FragmentPlugin.getFragment();
-	private Json db;
+	public Json db;
 
 	@Override
 	public void load() {

@@ -2,10 +2,12 @@ package me.xemu.fragment.manager;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
+import me.xemu.fragment.database.implementations.JsonDatabase;
 import me.xemu.fragment.entity.Group;
-import me.xemu.fragment.utils.EditOptions;
+import me.xemu.fragment.utils.Utils;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class GroupManager {
 
@@ -20,9 +22,43 @@ public class GroupManager {
 
 	public void editGroup(String name, String key, Object value) {
 		Group group = database.loadGroup(name);
-		EditOptions option = EditOptions.getOptionByKey(key);
 
+		switch (key) {
+			case "prefix":
+				group.setPrefix((String) value);
+				database.saveGroup(group);
+				break;
+			case "suffix":
+				group.setSuffix((String) value);
+				database.saveGroup(group);
+				break;
+			case "format":
+				group.setFormat((String) value);
+				database.saveGroup(group);
+				break;
+			case "weight":
+				if (Utils.isNumber((String) value)) {
+					group.setWeight(Integer.valueOf((String) value));
+					database.saveGroup(group);
+				}
+				break;
+		}
+	}
 
+	public void deleteGroup(String name) {
+		if (plugin.getDatabase() instanceof JsonDatabase) {
+			plugin.getConfigManager().getJsonDatabase().removeAll("groups." + name);
+		}
+
+		// TODO: Bring MySQL Support to this method
+	}
+
+	public List<Group> getAllGroups() {
+		return database.loadGroups();
+	}
+
+	public List<Group> filterGroups(Predicate<Group> predicate) {
+		return getAllGroups().stream().filter(predicate).toList();
 	}
 
 }

@@ -2,9 +2,7 @@ package me.xemu.fragment;
 
 import lombok.Getter;
 import me.xemu.fragment.database.FragmentDatabase;
-import me.xemu.fragment.manager.CommandManager;
-import me.xemu.fragment.manager.ConfigManager;
-import me.xemu.fragment.manager.DatabaseManager;
+import me.xemu.fragment.manager.*;
 import me.xemu.fragment.menu.MenuListener;
 import me.xemu.fragment.menu.MenuUtil;
 import org.bstats.bukkit.Metrics;
@@ -22,6 +20,8 @@ public class FragmentPlugin extends JavaPlugin {
 	private ConfigManager configManager;
 	private DatabaseManager databaseManager;
 	private CommandManager commandManager;
+	private GroupManager groupManager;
+	private UserManager userManager;
 
 	private FragmentDatabase database;
 
@@ -40,10 +40,11 @@ public class FragmentPlugin extends JavaPlugin {
 		this.configManager = new ConfigManager();
 		this.databaseManager = new DatabaseManager();
 		this.commandManager = new CommandManager(this);
+		this.groupManager = new GroupManager();
+		this.userManager = new UserManager();
 		this.database = databaseManager.select();
 
 		commandManager.registerCommands();
-
 		loadEvents();
 
 		new Metrics(this, pluginId);
