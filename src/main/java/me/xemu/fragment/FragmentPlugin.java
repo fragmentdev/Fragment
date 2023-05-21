@@ -2,6 +2,7 @@ package me.xemu.fragment;
 
 import lombok.Getter;
 import me.xemu.fragment.database.FragmentDatabase;
+import me.xemu.fragment.listeners.JoinListener;
 import me.xemu.fragment.manager.*;
 import me.xemu.fragment.menu.MenuListener;
 import me.xemu.fragment.menu.MenuUtil;
@@ -56,6 +57,7 @@ public class FragmentPlugin extends JavaPlugin {
 
 
 	private void loadEvents() {
+		getServer().getPluginManager().registerEvents(new JoinListener(), this);
 		getServer().getPluginManager().registerEvents(new MenuListener(), this);
 	}
 

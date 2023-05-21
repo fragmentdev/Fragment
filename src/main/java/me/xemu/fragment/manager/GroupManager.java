@@ -7,6 +7,7 @@ import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.utils.Utils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class GroupManager {
@@ -68,6 +69,21 @@ public class GroupManager {
 				createGroup(ConfigManager.DEFAULT_GROUP, 10, "&9[Default]", "&f", "", null);
 			}
 		}
+	}
+
+	public static Group load(String name) {
+		return FragmentPlugin.getFragment().getDatabase().loadGroup(name);
+	}
+
+	public static Group getDefaultGroup() {
+		return load(ConfigManager.DEFAULT_GROUP);
+	}
+
+	public static boolean hasDefaultGroup() {
+		if (Objects.equals(ConfigManager.DEFAULT_GROUP, "")) {
+			return false;
+		}
+		return true;
 	}
 
 }
