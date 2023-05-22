@@ -7,31 +7,38 @@ import me.xemu.fragment.entity.User;
 import me.xemu.fragment.manager.ConfigManager;
 import me.xemu.fragment.manager.UserManager;
 import me.xemu.fragment.utils.Utils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-    private FragmentPlugin plugin = FragmentPlugin.getFragment();
-
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         User user = UserManager.load(event.getPlayer());
-        Group topGroup = Utils.getHeaviestGroup(user.getGroups());
 
-        String formatString;
-        if (topGroup != null && topGroup.getFormat() != null && !topGroup.getFormat().isEmpty()) {
-            formatString = topGroup.getFormat();
+        if (!user.getGroups().isEmpty()) {
+            handleGroupChatFormat(user, event);
         } else {
-            formatString = ConfigManager.DEFAULT_FORMAT;
+            handleNoGroupChatFormat(user, event);
         }
+    }
 
-        if (formatString != null) {
-            GroupChatFormat format = new GroupChatFormat(formatString, event);
-            String formatted = format.getFormatted();
-            event.setFormat(formatted);
+    public void handleGroupChatFormat(User user, AsyncPlayerChatEvent event) {
+        Group group = Utils.getHeaviestGroup(user.getGroups());
+        String groupRawString = ConfigManager.DEFAULT_FORMAT;
+        if (!group.getFormat().isBlank()) {
+            groupRawString = group.getFormat();
         }
+        GroupChatFormat groupChatFormat = new GroupChatFormat(groupRawString, event);
+        event.setFormat(groupChatFormat.getFormatted());
+    }
+
+    public void handleNoGroupChatFormat(User user, AsyncPlayerChatEvent event) {
+        String groupRawString = ConfigManager.DEFAULT_FORMAT;
+        GroupChatFormat groupChatFormat = new GroupChatFormat(groupRawString, event);
+        event.setFormat(groupChatFormat.getFormatted());
     }
 
 }

@@ -10,6 +10,7 @@ import me.xemu.fragment.menu.MenuListener;
 import me.xemu.fragment.menu.MenuUtil;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
