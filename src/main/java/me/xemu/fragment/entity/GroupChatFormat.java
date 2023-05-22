@@ -15,18 +15,13 @@ public class GroupChatFormat {
 
 		User user = UserManager.load(event.getPlayer().getUniqueId());
 		Group group = Utils.getHeaviestGroup(user.getGroups());
-		String prefix = group.getPrefix();
-		String suffix = group.getSuffix();
 
-		if (group == null) {
-			prefix = "";
-			suffix = "";
-		}
+		String prefix = "";
+		String suffix = "";
 
-		if (group == null || group.getPrefix().isEmpty()) {
-			prefix = "";
-		} else if (group == null || group.getSuffix().isEmpty()) {
-			suffix = "";
+		if (group != null) {
+			prefix = group.getPrefix();
+			suffix = group.getSuffix();
 		}
 
 		String format = new Message(raw)
