@@ -1,6 +1,7 @@
 package me.xemu.fragment.manager;
 
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.builder.ConsoleMessage;
 import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.database.implementations.JsonDatabase;
 import me.xemu.fragment.entity.Group;
@@ -16,8 +17,10 @@ public class GroupManager {
 	private FragmentDatabase database = plugin.getDatabase();
 
 	public void createGroup(String name, int weight, String prefix, String suffix, String format, List<String> permissions) {
-		if (database.loadGroup(name) == null) {
-			database.saveGroup(new Group(name, weight, prefix, suffix, format, permissions));
+		if (database.loadGroup(name.toLowerCase()) == null) {
+			database.saveGroup(new Group(name.toLowerCase(), weight, prefix, suffix, format, permissions));
+			new ConsoleMessage("Group Created: " + name + " / " + weight + " - " + permissions.size() + " permissions.")
+					.consoleNormal(true);
 		}
 	}
 
@@ -65,7 +68,7 @@ public class GroupManager {
 	// TODO: Customizable properties for Default Group
 	public void createDefaultGroup() {
 		if (ConfigManager.AUTO_CREATE_DEFAULT_GROUP) {
-			if (database.loadGroup(ConfigManager.DEFAULT_GROUP) == null) {
+			if (GroupManager.load(ConfigManager.DEFAULT_GROUP) == null) {
 				createGroup(ConfigManager.DEFAULT_GROUP, 10, "&9[Default]", "&f", "", null);
 			}
 		}

@@ -1,4 +1,4 @@
-package me.xemu.fragment.menu.menus.create;
+package me.xemu.fragment.menu.menus.group;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;
@@ -7,7 +7,6 @@ import me.xemu.fragment.manager.GroupManager;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
 import me.xemu.fragment.menu.menus.GroupsMenu;
-import me.xemu.fragment.menu.menus.MainMenu;
 import me.xemu.fragment.menu.menus.SettingsMenu;
 import me.xemu.fragment.menu.menus.UsersMenu;
 import me.xemu.fragment.utils.Interaction;
@@ -37,7 +36,7 @@ public class GroupEditMenu extends Paged {
 
 	@Override
 	public String getMenuName() {
-		return "Fragment > Create Group:";
+		return "Fragment > Edit Group:";
 	}
 
 	@Override

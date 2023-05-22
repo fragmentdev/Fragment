@@ -1,35 +1,44 @@
 package me.xemu.fragment.menu.menus;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.entity.Group;
-import me.xemu.fragment.entity.User;
+import me.xemu.fragment.manager.GroupManager;
 import me.xemu.fragment.manager.UserManager;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
-import org.bukkit.Bukkit;
+import me.xemu.fragment.menu.menus.group.GroupCreateMenu;
+import me.xemu.fragment.menu.menus.group.GroupEditMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.xemu.fragment.utils.Utils.deformat;
+import static me.xemu.fragment.utils.Utils.*;
 
 public class GroupsMenu extends Paged {
 
-	List<Player> players = new ArrayList<>();
+	private FragmentPlugin plugin = FragmentPlugin.getFragment();
+	private GroupManager groupManager = plugin.getGroupManager();
+	private UserManager userManager = plugin.getUserManager();
+
+	List<Group> groups = new ArrayList<>();
 
 	public GroupsMenu(MenuUtil menuUtil) {
 		super(menuUtil);
 
-		if (!players.isEmpty()) players.clear();
-		players.addAll(Bukkit.getOnlinePlayers());
+		if (!groups.isEmpty()) groups.clear();
+		groups = plugin.getDatabase().loadGroups();
 	}
 
 	@Override
 	public String getMenuName() {
-		return "Fragment > Users:";
+		return "Fragment > Groups:";
 	}
 
 	@Override
@@ -42,8 +51,17 @@ public class GroupsMenu extends Paged {
 		Player player = (Player) e.getWhoClicked();
 		String displayname = deformat(e.getCurrentItem().getItemMeta().getDisplayName());
 
+		NBTItem item = new NBTItem(e.getCurrentItem());
+
+		if (item.hasNBTData() && e.getCurrentItem().getType() == Material.CHEST) {
+			String group = item.getString("group");
+
+			new GroupEditMenu(FragmentPlugin.getMenuUtil(player, group)).open();
+			menuUtil.setGroup(group);
+		}
+
 		if (displayname.equalsIgnoreCase("Users")) {
-			new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
+			new UsersMenu(FragmentPlugin.getMenuUtil(player)).open();
 		} else if (displayname.equalsIgnoreCase("Groups")) {
 			new GroupsMenu(FragmentPlugin.getMenuUtil(player)).open();
 		} else if (displayname.equalsIgnoreCase("Settings")) {
@@ -56,10 +74,14 @@ public class GroupsMenu extends Paged {
 				new MainMenu(FragmentPlugin.getMenuUtil(player)).open();
 			}
 		} else if (displayname.equalsIgnoreCase("Next")) {
-			if (!((index + 1) >= Bukkit.getOnlinePlayers().size())) {
+			if (!((index + 1) >= groups.size())) {
 				page = page + 1;
 				super.open();
 			}
+		} else if (displayname.equalsIgnoreCase("Create Group")) {
+			new GroupCreateMenu(FragmentPlugin.getMenuUtil(player)).open();
+		} else {
+			e.setCancelled(true);
 		}
 	}
 
@@ -67,24 +89,48 @@ public class GroupsMenu extends Paged {
 	public void setMenuItems() {
 		applyLayout(true);
 
-		if (!players.isEmpty()) {
+		if (!groups.isEmpty()) {
 			int maxItemsPerPage = 24;
 			int startIndex = page * maxItemsPerPage;
-			int endIndex = Math.min(startIndex + maxItemsPerPage, players.size());
+			int endIndex = Math.min(startIndex + maxItemsPerPage, groups.size());
 
 			for (int i = startIndex; i < endIndex; i++) {
-				Player player = players.get(i);
-				if (player == null) continue;
-				User user = UserManager.load(player.getUniqueId());
+				Group group = groups.get(i);
+				if (group == null) continue;
+
+				ItemStack item = new ItemStack(Material.CHEST, 1);
+				ItemMeta meta = item.getItemMeta();
+				assert meta != null;
+
+				NBTItem nbt = new NBTItem(item);
 
 				List<String> lore = new ArrayList<>();
-				lore.add("&7Groups: (name, weight)");
-				for (Group group : user.getGroups()) {
-					lore.add(" &8&l> &f&l" + group.getName() + " &7- &e" + group.getWeight());
-				}
-				getInventory().addItem(makeItem(Material.PLAYER_HEAD, "&e&n" + player.getName(), lore));
+				lore.add("&7Weight: &f" + group.getWeight());
+				lore.add("&7Prefix: " + group.getPrefix());
+				lore.add("&7Suffix: " + group.getSuffix());
+				lore.add("&7Permissions: (" + group.getPermissions().size() + ")");
+				lore.add("");
+				lore.add("&eClick to manage group!");
+
+				nbt.setString("group", group.getName());
+
+				meta.setDisplayName(translate("&e&n" + group.getName()));
+				meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+				meta.addItemFlags(ItemFlag.HIDE_DYE);
+				meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+				meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+				meta.setLore(color(lore));
+
+				nbt.getItem().setItemMeta(meta);
+
+				nbt.setString("group", group.getName());
+				inventory.addItem(nbt.getItem());
 			}
 		}
+
+		inventory.setItem(53, makeItem(Material.ANVIL, "&aCreate Group"));
 	}
+
 
 }

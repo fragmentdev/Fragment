@@ -1,4 +1,4 @@
-package me.xemu.fragment.menu.menus.create;
+package me.xemu.fragment.menu.menus.group;
 
 import me.xemu.fragment.FragmentPlugin;
 import me.xemu.fragment.database.FragmentDatabase;

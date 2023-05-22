@@ -17,10 +17,11 @@ public class DatabaseManager {
 	}
 
 	public FragmentDatabase select() {
-		if (plugin.getConfig().getString("Database.System").equalsIgnoreCase("json")) {
+/*		if (plugin.getConfig().getString("Database.Integration").equalsIgnoreCase("JSON")) {
 			this.database = new JsonDatabase();
-		}
-		return null;
+		}*/
+		this.database = new JsonDatabase();
+		return database;
 	}
 
 	public FragmentDatabase getDatabase() {

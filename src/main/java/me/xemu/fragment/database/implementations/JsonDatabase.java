@@ -7,6 +7,7 @@ import me.xemu.fragment.database.FragmentDatabase;
 import me.xemu.fragment.entity.Group;
 import me.xemu.fragment.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,10 @@ public class JsonDatabase implements FragmentDatabase {
 
 		List<String> permissions = db.getStringList("users." + uuid + ".permissions");
 
-		return new User(uuid, groups, permissions);
+		ArrayList<Group> groupArrayList = new ArrayList<>(groups);
+		ArrayList<String> permissionsArrayList = new ArrayList<>(permissions);
+
+		return new User(uuid, groupArrayList, permissionsArrayList);
 	}
 
 	@Override
@@ -52,11 +56,12 @@ public class JsonDatabase implements FragmentDatabase {
 
 	@Override
 	public void saveGroup(Group group) {
-		db.set("groups." + group.getName() + ".weight", group.getWeight());
-		db.set("groups." + group.getName() + ".prefix", group.getPrefix());
-		db.set("groups." + group.getName() + ".suffix", group.getSuffix());
-		db.set("groups." + group.getName() + ".format", group.getFormat());
-		db.set("groups." + group.getName() + ".permissions", group.getPermissions());
+		String name = group.getName().toLowerCase();
+		db.set("groups." + name + ".weight", group.getWeight());
+		db.set("groups." + name + ".prefix", group.getPrefix());
+		db.set("groups." + name + ".suffix", group.getSuffix());
+		db.set("groups." + name + ".format", group.getFormat());
+		db.set("groups." + name + ".permissions", group.getPermissions());
 		db.write();
 	}
 

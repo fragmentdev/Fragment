@@ -10,3 +10,5 @@ softdepend:
 commands:
   fragment:
     description: Fragment Command
+  user:
+    description: Manage users

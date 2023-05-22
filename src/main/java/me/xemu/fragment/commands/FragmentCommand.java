@@ -17,9 +17,12 @@ public class FragmentCommand implements CommandExecutor {
 	private FragmentDatabase database = plugin.getDatabase();
 	private HashMap<String, FragmentSubCommand> subCommands = new HashMap<>();
 
+	private FragmentSubCommand mainCommand;
+
 	public FragmentCommand() {
-		subCommands.put("reload", new FragmentReloadCommand());
 		subCommands.put("gui", new FragmentGuiCommand());
+
+		this.mainCommand = new FragmentGuiCommand();
 	}
 
 
@@ -33,27 +36,15 @@ public class FragmentCommand implements CommandExecutor {
 		}
 
 
-		if (args.length >= 1) {
-			String subCommand = args[0].toLowerCase();
-
-			if (subCommands.containsKey(subCommand)) {
-				if (subCommands.get(subCommand).getRequiredPermission() != "") {
-					if (player.hasPermission(subCommands.get(subCommand).getRequiredPermission())) {
-						subCommands.get(subCommand).execute(player);
-					} else {
-						Utils.sendError(player, "No permission for sub-command: " + subCommand);
-					}
-				}
-			} else {
-				Utils.sendError(player, "Invalid usage for Fragment: /fragment <reload/gui>");
-				return true;
-			}
-
-		} else {
-			Utils.sendError(player, "Invalid usage for Fragment: /fragment <reload>");
-			return true;
+		if (args.length == 0) {
+			mainCommand.execute(player);
 		}
 
 		return true;
 	}
+
+	private String getInvalidUsageMessage() {
+		return "Invalid usage for Fragment: /fragment <reload/gui>";
+	}
+
 }

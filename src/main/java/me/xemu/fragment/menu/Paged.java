@@ -33,9 +33,9 @@ public abstract class Paged extends Menu {
         }
 
         // CATEGORY ITEMS
-        getInventory().setItem(9, makeItem(Material.PLAYER_HEAD, "&f&lUsers"));
-        getInventory().setItem(18, makeItem(Material.CHEST, "&f&lGroups"));
-        getInventory().setItem(36, makeItem(Material.REPEATER, "&f&lSettings"));
+        getInventory().setItem(9, makeItem(Material.PLAYER_HEAD, "&f&lUsers", "§7View and manage users."));
+        getInventory().setItem(18, makeItem(Material.CHEST, "&f&lGroups", "§7View and manage groups."));
+        getInventory().setItem(36, makeItem(Material.REPEATER, "&f&lSettings", "§7View and manage settings."));
 
         /// GLASS ITEMS
         getInventory().setItem(0, makeItem(Material.GRAY_STAINED_GLASS_PANE, "&6"));

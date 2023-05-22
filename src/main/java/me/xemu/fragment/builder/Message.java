@@ -9,6 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +25,7 @@ public class Message {
 	}
 
 	public Message placeholder(String placeholder, String replacement) {
-		this.message = message.replaceAll(placeholder, replacement);
+		this.message = message.replaceAll(Pattern.quote(placeholder), Matcher.quoteReplacement(replacement));
 		return this;
 	}
 

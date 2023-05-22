@@ -6,6 +6,7 @@ import me.xemu.fragment.entity.User;
 import me.xemu.fragment.manager.UserManager;
 import me.xemu.fragment.menu.MenuUtil;
 import me.xemu.fragment.menu.Paged;
+import me.xemu.fragment.menu.menus.user.UserOptionsMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -60,6 +61,11 @@ public class UsersMenu extends Paged {
 			if (!((index + 1) >= Bukkit.getOnlinePlayers().size())) {
 				page = page + 1;
 				super.open();
+			}
+		} else {
+			if (Bukkit.getPlayer(displayname) != null) {
+				User user = UserManager.load(Bukkit.getPlayer(displayname));
+				new UserOptionsMenu(FragmentPlugin.getMenuUtil(Bukkit.getPlayer(displayname)), user).open();
 			}
 		}
 	}

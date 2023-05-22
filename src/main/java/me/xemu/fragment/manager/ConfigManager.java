@@ -5,9 +5,9 @@ import de.leonhard.storage.Yaml;
 import lombok.Getter;
 import lombok.Setter;
 import me.xemu.fragment.FragmentPlugin;
+import me.xemu.fragment.builder.ConsoleMessage;
 import me.xemu.fragment.database.implementations.JsonDatabase;
 
-@Getter
 @Setter
 public class ConfigManager {
 	private FragmentPlugin plugin = FragmentPlugin.getFragment();
@@ -27,10 +27,7 @@ public class ConfigManager {
 	public ConfigManager() {
 		this.config = new Yaml("config", "plugins/Fragment");
 		this.messages = new Yaml("messages", "plugins/Fragment");
-
-		if (plugin.getDatabase() instanceof JsonDatabase) {
-			this.jsonDatabase = new Json("database", "plugins/Fragment");
-		}
+		this.jsonDatabase = new Json("database", "plugins/Fragment");
 
 		setConstants();
 	}
@@ -45,4 +42,24 @@ public class ConfigManager {
 		DEFAULT_FORMAT = config.getOrSetDefault("ChatFormat.DefaultFormat", "{Prefix}{Player}&8: &r{Suffix}{Message}");
 	}
 
+	public Yaml getConfig() {
+		if (config == null) {
+			new ConsoleMessage("Could not get Config as it doesn't exist.").consoleError(true);
+		}
+		return config;
+	}
+
+	public Yaml getMessages() {
+		if (messages == null) {
+			new ConsoleMessage("Could not get Messages as it doesn't exist.").consoleError(true);
+		}
+		return messages;
+	}
+
+	public Json getJsonDatabase() {
+		if (jsonDatabase == null) {
+			new ConsoleMessage("Could not get JSON-Database as it doesn't exist.").consoleError(true);
+		}
+		return jsonDatabase;
+	}
 }
